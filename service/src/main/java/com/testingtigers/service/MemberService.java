@@ -1,6 +1,7 @@
 package com.testingtigers.service;
 
 import com.testingtigers.domain.dtos.CreateMemberDto;
+import com.testingtigers.domain.dtos.Mapper;
 import com.testingtigers.domain.dtos.MemberDto;
 import com.testingtigers.domain.dtos.MemberMapper;
 import com.testingtigers.domain.repositories.MemberRepository;
@@ -14,9 +15,9 @@ public class MemberService {
     private MemberMapper memberMapper;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository, MemberMapper memberMapper) {
+    public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
-        this.memberMapper = memberMapper;
+        this.memberMapper = new MemberMapper();
     }
 
     public MemberDto registerMember(CreateMemberDto memberToRegister) {

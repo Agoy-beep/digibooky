@@ -1,6 +1,9 @@
 package com.testingtigers.domain.users;
 
+import org.springframework.stereotype.Component;
+
 import java.util.UUID;
+
 
 public class Member {
 

@@ -36,7 +36,7 @@ public class BookController {
         return bookService.returnSpecificBookBasedOnId(id);
     }
 
-    @PutMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto createBook(CreateBookDto createBookDto){
         return bookService.createBook(createBookDto);

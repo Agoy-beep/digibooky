@@ -6,7 +6,7 @@ public class Mapper {
 
 
     public Book mapToBook(CreateBookDto createBookDto){
-        return new Book(createBookDto.getIsbn(), createBookDto.getAuthorID(), createBookDto.getSummary(), createBookDto.getTitle());
+        return new Book(createBookDto.getIsbn(), createBookDto.getTitle(), createBookDto.getAuthorID(), createBookDto.getSummary());
     }
 
     public BookDto mapToDto(Book book){

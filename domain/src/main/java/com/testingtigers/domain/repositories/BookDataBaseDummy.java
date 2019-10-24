@@ -11,7 +11,7 @@ public class BookDataBaseDummy {
 
     private final Map<String, Book> bookDB;
 
-    @Autowired
+
     public BookDataBaseDummy(Map<String, Book> bookDB) {
         this.bookDB = bookDB;
     }

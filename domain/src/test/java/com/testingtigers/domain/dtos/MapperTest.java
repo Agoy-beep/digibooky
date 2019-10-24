@@ -22,8 +22,8 @@ class MapperTest {
         Book book = mapper.mapToBook(bookDto);
         //THEN
         Assertions.assertThat(book.getAuthorID()).isEqualTo("5");
-        Assertions.assertThat(book.getAuthorID()).isEqualTo("5");
-        Assertions.assertThat(book.getAuthorID()).isEqualTo("5");
+        Assertions.assertThat(book.getTitle()).isEqualTo("Titles");
+        Assertions.assertThat(book.getIsbn()).isEqualTo("42");
 
     }
 
