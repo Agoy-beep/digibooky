@@ -2,16 +2,13 @@ package com.testingtigers.api;
 
 import com.testingtigers.domain.Book;
 import com.testingtigers.domain.dtos.BookDto;
+import com.testingtigers.domain.dtos.CreateBookDto;
 import com.testingtigers.domain.dtos.Mapper;
 import com.testingtigers.domain.repositories.BookRepository;
 import com.testingtigers.service.BookService;
-import com.testingttigers.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,5 +29,18 @@ public class BookController {
     public List<BookDto> getAllBooks(){
         return bookService.makeListOfBookDtos();
     }
+
+    @GetMapping(path = "{id}", produces = "application/json")
+    @ResponseStatus(HttpStatus.FOUND)
+    public BookDto getSpecificBook(@PathVariable ("id") String id){
+        return bookService.returnSpecificBookBasedOnId(id);
+    }
+
+    @PutMapping(consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookDto createBook(CreateBookDto createBookDto){
+        return bookService.createBook(createBookDto);
+    }
+
 
 }

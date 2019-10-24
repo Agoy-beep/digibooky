@@ -10,13 +10,6 @@ public class BookDto {
     private String authorID;
     private String summary;
 
-    public BookDto(String isbn, String uniqueId, String title, String authorID, String summary) {
-        this.isbn = isbn;
-        this.uniqueId = uniqueId;
-        this.title = title;
-        this.authorID = authorID;
-        this.summary = summary;
-    }
 
     public String getIsbn() {
         return isbn;
