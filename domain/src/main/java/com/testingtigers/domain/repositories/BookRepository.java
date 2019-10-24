@@ -2,12 +2,14 @@ package com.testingtigers.domain.repositories;
 
 
 import com.testingtigers.domain.Book;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Controller
 public class BookRepository {
 
     private final Map<String, Book> bookDB;
