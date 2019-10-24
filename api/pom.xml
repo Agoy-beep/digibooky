@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.testingtigers</groupId>
-            <artifactId>domain</artifactId>
+            <artifactId>service</artifactId>
             <version>0.1</version>
         </dependency>
     </dependencies>

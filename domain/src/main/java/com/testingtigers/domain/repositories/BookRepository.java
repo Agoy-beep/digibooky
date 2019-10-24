@@ -2,31 +2,31 @@ package com.testingtigers.domain.repositories;
 
 
 import com.testingtigers.domain.Book;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-@Controller
+@Component
 public class BookRepository {
 
-    private final Map<String, Book> bookDB;
+    private final BookDataBaseDummy database;
 
-    public BookRepository() {
-        this.bookDB = new HashMap<>();
+    @Autowired
+    public BookRepository(BookDataBaseDummy database) {
+        this.database = database;
     }
 
     public void addBookToDataBase(Book bookToAdd){
-        bookDB.put(bookToAdd.getId(), bookToAdd);
+        database.getBookDB().put(bookToAdd.getId(), bookToAdd);
     }
     public void deleteBookFromDataBase(Book bookToDelete){
-        bookDB.remove(bookToDelete.getId(), bookToDelete);
+        database.getBookDB().remove(bookToDelete.getId(), bookToDelete);
     }
 
     public Book getById(String id){
-        Book foundBook = bookDB.get(id);
+        Book foundBook = database.getBookDB().get(id);
         if(foundBook == null){
             throw new IllegalArgumentException();
         }
@@ -36,7 +36,7 @@ public class BookRepository {
     }
 
     public List<Book> getAllBooks(){
-        return new ArrayList<>(bookDB.values());
+        return new ArrayList<>(database.getBookDB().values());
     }
 
 

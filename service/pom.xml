@@ -11,5 +11,12 @@
 
     <artifactId>service</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.testingtigers</groupId>
+            <artifactId>domain</artifactId>
+            <version>0.1</version>
+        </dependency>
+    </dependencies>
 
 </project>
