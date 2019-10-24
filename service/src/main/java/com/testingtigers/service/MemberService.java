@@ -23,6 +23,10 @@ public class MemberService {
     public MemberDto registerMember(CreateMemberDto memberToRegister) {
 
         Member registeredMember = new Member(memberToRegister.getINSS(), memberToRegister.getEmailAdress(), memberToRegister.getLastName(), memberToRegister.getCity());
+        registeredMember.setFirstName(memberToRegister.getFirstName());
+        registeredMember.setPostalCode(memberToRegister.getPostalCode());
+        registeredMember.setStreetName(memberToRegister.getStreetName());
+        registeredMember.setStreetNumber(memberToRegister.getStreetNumber());
         memberRepository.addMember(registeredMember);
         return memberMapper.convertMemberToDto(registeredMember);
     }
