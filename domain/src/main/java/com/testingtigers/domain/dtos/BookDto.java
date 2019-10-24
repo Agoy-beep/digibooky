@@ -15,6 +15,9 @@ public class BookDto {
         return isbn;
     }
 
+    public String getUniqueId() {
+        return uniqueId;
+    }
 
     public String getTitle() {
         return title;
@@ -42,5 +45,9 @@ public class BookDto {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
     }
 }

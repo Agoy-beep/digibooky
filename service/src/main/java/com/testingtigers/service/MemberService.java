@@ -1,7 +1,6 @@
 package com.testingtigers.service;
 
 import com.testingtigers.domain.dtos.CreateMemberDto;
-import com.testingtigers.domain.dtos.Mapper;
 import com.testingtigers.domain.dtos.MemberDto;
 import com.testingtigers.domain.dtos.MemberMapper;
 import com.testingtigers.domain.repositories.MemberRepository;
