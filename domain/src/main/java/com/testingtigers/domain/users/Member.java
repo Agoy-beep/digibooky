@@ -23,6 +23,9 @@ public class Member {
 
     public Member(String INSS, String emailAdress, String lastName, String city) {
         id = UUID.randomUUID().toString();
+        if (INSS == null || emailAdress == null || lastName == null || city == null) {
+            throw new IllegalArgumentException("Please fill in all fields");
+        }
         this.INSS = INSS;
         this.lastName = lastName;
         this.city = city;
