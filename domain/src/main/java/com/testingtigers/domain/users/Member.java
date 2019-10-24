@@ -21,9 +21,50 @@ public class Member {
     public Member(String INSS, String emailAdress, String lastName, String city) {
         id = UUID.randomUUID().toString();
         this.INSS = INSS;
-        this.emailAdress = emailAdress;
         this.lastName = lastName;
         this.city = city;
+        if (isEmailValid(emailAdress)) {
+            this.emailAdress = emailAdress;
+        } else {
+            throw new IllegalArgumentException("Invalid email");
+        }
+    }
+
+    public String getINSS() {
+        return INSS;
+    }
+
+    public String getEmailAdress() {
+        return emailAdress;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public String getStreetNumber() {
+        return streetNumber;
+    }
+
+    public static boolean isEmailValid(String email) {
+        String emailCheckingRegex = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
+        return email.matches(emailCheckingRegex);
     }
 
     public Member setStreetName(String streetName) {
