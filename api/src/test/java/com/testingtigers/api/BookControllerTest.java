@@ -1,10 +1,12 @@
 package com.testingtigers.api;
 
 import com.testingtigers.domain.dtos.BookDto;
+import com.testingtigers.service.BookService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@ActiveProfiles("test")
 class BookControllerTest {
 
     private static int PORT = 9090;
@@ -24,16 +27,20 @@ class BookControllerTest {
     @Test
     void getAllBooks() {
 
-        List<BookDto> listOfCourses = RestAssured
+        BookService bookService = new BookService();
+
+
+            RestAssured
                 .given()
+                    .body(listOfCourses)
                     .accept(JSON)
                 .when()
                     .port(PORT)
-                    .get("/courses")
+                    .get("/books")
                 .then()
                     .assertThat()
                     .statusCode(HttpStatus.ACCEPTED.value())
                     .extract()
-                        .as(new TypeRef<List<Book>>(){});
+                        .as(listOfCourses);
     }
 }
