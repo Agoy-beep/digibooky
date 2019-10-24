@@ -4,26 +4,45 @@ import java.util.UUID;
 
 public class Member {
 
-    /*private String INSS;
+    private String INSS;
     private final String id;
     private String emailAdress;
-    private final String firstName;
-    private final String lastName;
+    private String firstName;
+    private String lastName;
     private String city;
     private String postalCode;
+    private String streetName;
+    private String streetNumber;
 
-    private Member(){
-        this.id = UUID.randomUUID().toString();
+    public String getId() {
+        return id;
     }
 
-    public class MemberBuilder{
-        private String INSS;
-        private final String id;
-        private String emailAdress;
-        private final String firstName;
-        private final String lastName;
-        private String city;
-        private String postalCode;
-    }*/
+    public Member(String INSS, String emailAdress, String lastName, String city) {
+        id = UUID.randomUUID().toString();
+        this.INSS = INSS;
+        this.emailAdress = emailAdress;
+        this.lastName = lastName;
+        this.city = city;
+    }
 
+    public Member setStreetName(String streetName) {
+        this.streetName = streetName;
+        return this;
+    }
+
+    public Member setStreetNumber(String streetNumber) {
+        this.streetNumber = streetNumber;
+        return this;
+    }
+
+    public Member setFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    public Member setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+        return this;
+    }
 }
