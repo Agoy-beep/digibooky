@@ -1,4 +1,4 @@
-package com.testingtigers.domain;
+package com.testingtigers.domain.users;
 
 import java.util.UUID;
 
