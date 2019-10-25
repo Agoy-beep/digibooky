@@ -70,4 +70,12 @@ public class BookService {
     public List<BookDto> returnBooksByAuthor(String firstName,String lastName) {
         return bookRepository.getBookByAuthor(firstName,lastName,authorRepository);
     }
+
+    public BookDto deleteBookByID(String id) {
+        return bookRepository.deleteBookFromDatabaseByID(id);
+    }
+
+    public BookDto undeleteBookByID(String id) {
+        return bookRepository.undeleteBookFromDatabaseByID(id);
+    }
 }

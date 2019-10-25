@@ -1,5 +1,7 @@
 package com.testingtigers.domain;
 
+import groovy.transform.ToString;
+
 import java.util.UUID;
 
 public class Book {
@@ -9,6 +11,8 @@ public class Book {
     private final String title;
     private final String authorID;
     private final String summary;
+    private boolean softDeleted; // DO NOT MAKE FINAL
+
 
     public Book(String isbn, String title, String authorID, String summary) {
         this.isbn = isbn;
@@ -16,6 +20,15 @@ public class Book {
         this.authorID = authorID;
         this.summary = summary;
         this.uniqueId = UUID.randomUUID().toString();
+        setSoftDelete(false);
+    }
+
+    public boolean isSoftDeleted() {
+        return softDeleted;
+    }
+
+    public boolean setSoftDelete(boolean value) {
+        return softDeleted = value;
     }
 
     public String getIsbn() {
@@ -36,5 +49,10 @@ public class Book {
 
     public String getId() {
         return uniqueId;
+    }
+
+    @Override
+    public String toString() {
+        return "ToString : " + getId() + " " + getIsbn() + " " + getTitle();
     }
 }
