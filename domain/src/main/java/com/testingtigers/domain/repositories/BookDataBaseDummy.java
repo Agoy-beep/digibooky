@@ -22,8 +22,6 @@ public class BookDataBaseDummy {
 
     public BookDataBaseDummy() {
         this.bookDB = new HashMap<>();
-        bookDB.put("DannyTest",new Book("123-456-danny" , "DannyTitle", "DannyAuthorID","DannySummery"));
-
     }
 
     public Map<String, Book> getBookDB() {
