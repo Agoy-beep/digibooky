@@ -4,8 +4,6 @@ import com.testingtigers.domain.users.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class MemberMapperTest {
     @Test
     void givenMemberWhenConvertGetProperDto() {
