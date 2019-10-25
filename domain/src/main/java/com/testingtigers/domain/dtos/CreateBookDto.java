@@ -5,7 +5,7 @@ import com.testingtigers.domain.Author;
 public class CreateBookDto {
 
     private String isbn;
-    private String uniqueId;
+    //private String uniqueId;
     private String title;
     private String authorID;
     private String summary;
@@ -14,9 +14,9 @@ public class CreateBookDto {
         return isbn;
     }
 
-    public String getUniqueId() {
+    /*public String getUniqueId() {
         return uniqueId;
-    }
+    }*/
 
     public String getTitle() {
         return title;
