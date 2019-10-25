@@ -33,13 +33,4 @@ class BookControllerTest {
         this.service = service;
     }
 
-    @Test
-    void getAllBooks() {
-        //TODO
-    }
-
-    @Test
-    void getBookDetails(){
-        //TODO
-    }
 }
