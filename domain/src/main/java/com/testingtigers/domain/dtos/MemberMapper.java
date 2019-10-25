@@ -6,7 +6,7 @@ public class MemberMapper {
 
     public MemberDto convertMemberToDto(Member member) {
         MemberDto memberDto = new MemberDto();
-        memberDto.setINSS(member.getINSS());
+        memberDto.setINSS(member.getInss());
         memberDto.setId(member.getId());
         memberDto.setEmailAdress(member.getEmailAddress());
         memberDto.setFirstName(member.getFirstName());

@@ -13,7 +13,7 @@ class MemberServiceTest {
         //GIVEN
         MemberService memberService = new MemberService(new MemberRepository());
         CreateMemberDto createDto = new CreateMemberDto();
-        createDto.setINSS("455");
+        createDto.setInss("455");
         createDto.setEmailAddress("hallo@gmail.com");
         createDto.setFirstName("ddd");
         createDto.setLastName("Thaha");
@@ -36,7 +36,7 @@ class MemberServiceTest {
         //GIVEN
         MemberService memberService = new MemberService(new MemberRepository());
         CreateMemberDto createDto = new CreateMemberDto();
-        createDto.setINSS("");
+        createDto.setInss("");
         createDto.setEmailAddress("");
         createDto.setFirstName("");
         createDto.setLastName("");

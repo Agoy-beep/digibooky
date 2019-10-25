@@ -21,7 +21,7 @@ public class MemberService {
 
     public MemberDto registerMember(CreateMemberDto memberToRegister) {
 
-        Member registeredMember = new Member(memberToRegister.getINSS(), memberToRegister.getEmailAddress(), memberToRegister.getLastName(), memberToRegister.getCity());
+        Member registeredMember = new Member(memberToRegister.getInss(), memberToRegister.getEmailAddress(), memberToRegister.getLastName(), memberToRegister.getCity());
         registeredMember.setFirstName(memberToRegister.getFirstName());
         registeredMember.setPostalCode(memberToRegister.getPostalCode());
         registeredMember.setStreetName(memberToRegister.getStreetName());
