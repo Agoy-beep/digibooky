@@ -2,12 +2,15 @@ package com.testingtigers.domain.users;
 
 import java.util.UUID;
 
-public class Admin {
+public class Admin implements Authenticatable {
 
+    private final static Role ROLE = Role.ADMIN;
+    private final static String DEFAULT_PASSWORD = "admin";
     private String id;
     private String lastName;
     private String firstName;
     private String email;
+    private String password;
 
     public Admin(String lastName, String firstName, String email) {
         this.lastName = lastName;
@@ -18,5 +21,21 @@ public class Admin {
             throw new IllegalArgumentException("Invalid email");
         }
         this.id = UUID.randomUUID().toString();
+        password = DEFAULT_PASSWORD;
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public Role getRole() {
+        return ROLE;
     }
 }

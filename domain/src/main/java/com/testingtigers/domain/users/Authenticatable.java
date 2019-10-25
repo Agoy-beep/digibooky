@@ -1,6 +1,4 @@
-package com.testingtigers.api.security;
-
-import com.testingtigers.domain.users.Role;
+package com.testingtigers.domain.users;
 
 public interface Authenticatable {
 

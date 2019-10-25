@@ -1,5 +1,6 @@
 package com.testingtigers.api.security;
 
+import com.testingtigers.domain.users.Authenticatable;
 import com.testingtigers.domain.users.Feature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

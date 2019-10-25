@@ -1,5 +1,6 @@
 package com.testingtigers.api.security;
 
+import com.testingtigers.domain.users.Authenticatable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

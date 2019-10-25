@@ -19,9 +19,6 @@ public enum Feature {
     }
 
     public static List<Feature> getFeatures(String roleString) {
-//        List<Role> roles = rolesString.stream()
-//                .map(Role::valueOf)
-//                .collect(Collectors.toList());
         Role role = Role.valueOf(roleString);
         return Arrays.stream(Feature.values())
                 .filter(feature -> feature.getRoles().contains(role))
