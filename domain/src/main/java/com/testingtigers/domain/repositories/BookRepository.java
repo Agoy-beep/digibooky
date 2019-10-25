@@ -1,6 +1,7 @@
 package com.testingtigers.domain.repositories;
 
 
+import com.testingtigers.domain.Author;
 import com.testingtigers.domain.Book;
 import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.BookMapper;
@@ -74,9 +75,24 @@ public class BookRepository {
         }
         return resultingBooks;
     }
-    public List<BookDto> getBookByAuthor(String authorToFind) {
+    public List<BookDto> getBookByAuthor(String authorToFind,AuthorRepository authors) {
         // see https://stackoverflow.com/questions/10520566/regular-expression-wildcard-matching
         List<BookDto> resultingBooks = new ArrayList<>();
+
+
+        List<Author> allAuthors = authors.getAuthorDBAsList();
+
+        for (Book bookToExam : getBookDBAsList()) {
+            allAuthors.add(authors.getById( bookToExam.getAuthorID()));
+        }
+
+        for (Book bookToExam : getBookDBAsList()) {
+
+        }
+
+
+
+
 
         return resultingBooks;
     }
