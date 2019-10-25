@@ -1,5 +1,6 @@
 package com.testingtigers.api.security;
 
+import com.testingtigers.domain.users.Admin;
 import com.testingtigers.domain.users.Authenticatable;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ public class UserAuthenticationService {
 
     public UserAuthenticationService() {
         userAuthenticatons = new ArrayList<>();
+        userAuthenticatons.add(new Admin("admin", "admin", "admin@admin.com"));
     }
 
     public Authenticatable getUser(String email, String password) {
