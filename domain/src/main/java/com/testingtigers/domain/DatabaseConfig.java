@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@Configuration
+/*@Configuration
 public class DatabaseConfig {
 
     private Author testAuthor = new Author("Arthur", "Dent");
@@ -30,4 +30,4 @@ public class DatabaseConfig {
        return testDB;
     }
 
-}
+}*/
