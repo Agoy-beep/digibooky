@@ -56,7 +56,7 @@ class BookServiceTest {
         createBookDto.setTitle("Title");
         createBookDto.setSummary("SUM");
         //WHEN
-        BookDto newBookDto = bookService.createBook(createBookDto);
+        BookDto newBookDto = bookService.createBookDto(createBookDto);
         //THEN
         assertThat(newBookDto.getTitle()).isEqualTo("Title");
         assertThat(newBookDto.getUniqueId()).isNotBlank();

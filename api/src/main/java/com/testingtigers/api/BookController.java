@@ -40,8 +40,10 @@ public class BookController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDto createBook(CreateBookDto createBookDto) {
-        return bookService.createBook(createBookDto);
+
+    public BookDto createBook(CreateBookDto createdBookDto){
+        return bookService.createBookDto(createdBookDto);
+
     }
 
     @GetMapping(path = "/ISBN/{ISBN}", produces = "application/json")

@@ -52,7 +52,7 @@ public class BookService {
         return bookMapper.mapToDto(bookRepository.getById(id));
     }
 
-    public BookDto createBook(CreateBookDto createBookDto){
+    public BookDto createBookDto(CreateBookDto createBookDto){
         Book newBook = bookMapper.mapToBook(createBookDto);
         bookRepository.addBookToDataBase(newBook);
         return bookMapper.mapToDto(newBook);
