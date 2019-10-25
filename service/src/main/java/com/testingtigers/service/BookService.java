@@ -1,9 +1,12 @@
 package com.testingtigers.service;
 
+import com.testingtigers.domain.Author;
 import com.testingtigers.domain.Book;
+import com.testingtigers.domain.dtos.AuthorDto;
 import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.CreateBookDto;
 import com.testingtigers.domain.dtos.BookMapper;
+import com.testingtigers.domain.repositories.AuthorRepository;
 import com.testingtigers.domain.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,12 +18,25 @@ import java.util.List;
 public class BookService {
 
     private final BookRepository bookRepository;
+
+    public AuthorRepository getAuthorRepository() {
+        return authorRepository;
+    }
+
+    private final AuthorRepository authorRepository;
     private final BookMapper bookMapper;
 
     @Autowired
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
         this.bookMapper = new BookMapper();
+        this.authorRepository = authorRepository;
+
+        Author authorToAdd = new Author("authorDannyFirstName", "authorDannyLastName");
+        authorRepository.addAuthor(authorToAdd);
+
+        Book bookToAdd = new Book("123-456-danny" , "DannyTitle",  authorToAdd.getAuthorID(),"DannySummery");
+        bookRepository.addBookToDataBase(bookToAdd);
     }
 
     public List<BookDto> makeListOfBookDtos() {
@@ -50,5 +66,8 @@ public class BookService {
 
     public List<BookDto> returnBooksByTitle(String title) {
         return bookRepository.getBookByTitle(title);
+    }
+    public List<BookDto> returnBooksByAuthor(String firstName,String lastName) {
+        return bookRepository.getBookByAuthor(firstName,lastName,authorRepository);
     }
 }

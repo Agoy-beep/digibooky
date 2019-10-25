@@ -1,6 +1,7 @@
 package com.testingtigers.api;
 
 import com.testingtigers.domain.Book;
+import com.testingtigers.domain.dtos.AuthorDto;
 import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.CreateBookDto;
 import com.testingtigers.service.BookService;
@@ -54,5 +55,15 @@ public class BookController {
     public List<BookDto> getBookByTitle(@PathVariable("title") String title) {
         return bookService.returnBooksByTitle(title);
     }
+    @GetMapping(path = "/author/{firstName}{lastName}",produces = "application/json")
+    @ResponseStatus(HttpStatus.FOUND)
+    public List<BookDto> getBookByTitle(
+            @PathVariable("firstName") String firstName ,
+            @PathVariable("lastName") String lastName) {
+        return bookService.returnBooksByAuthor(firstName,lastName);
+    }
+
+
+
 
 }
