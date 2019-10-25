@@ -2,7 +2,7 @@ package com.testingtigers.domain.dtos;
 
 public class CreateMemberDto {
 
-    private String INSS;
+    private String inss;
     private String emailAddress;
     private String firstName;
     private String lastName;
@@ -12,7 +12,7 @@ public class CreateMemberDto {
     private String streetNumber;
 
     public CreateMemberDto(String INSS, String emailAddress, String lastName, String city) {
-        this.INSS = INSS;
+        this.inss = INSS;
         this.emailAddress = emailAddress;
         this.lastName = lastName;
         this.city = city;
@@ -21,12 +21,12 @@ public class CreateMemberDto {
     public CreateMemberDto() {
     }
 
-    public String getINSS() {
-        return INSS;
+    public String getInss() {
+        return inss;
     }
 
-    public void setINSS(String INSS) {
-        this.INSS = INSS;
+    public void setInss(String inss) {
+        this.inss = inss;
     }
 
     public String getEmailAddress() {

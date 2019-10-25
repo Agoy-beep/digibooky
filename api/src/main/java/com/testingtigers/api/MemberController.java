@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/members")
 public class MemberController {
@@ -22,5 +24,11 @@ public class MemberController {
     @ResponseStatus(HttpStatus.CREATED)
     public MemberDto registerMember(@RequestBody CreateMemberDto memberToCreate) {
         return memberService.registerMember(memberToCreate);
+    }
+
+    @GetMapping(produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public List<MemberDto> viewAllMembers() {
+        return memberService.viewAllMembers();
     }
 }

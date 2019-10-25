@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class Member {
 
-    private String INSS;
+    private String inss;
     private final String id;
     private String emailAddress;
     private String firstName;
@@ -24,7 +24,7 @@ public class Member {
         if (INSS == null || emailAddress == null || lastName == null || city == null) {
             throw new IllegalArgumentException("Please fill in all fields");
         }
-        this.INSS = INSS;
+        this.inss = INSS;
         this.lastName = lastName;
         this.city = city;
         if (isEmailValid(emailAddress)) {
@@ -34,8 +34,8 @@ public class Member {
         }
     }
 
-    public String getINSS() {
-        return INSS;
+    public String getInss() {
+        return inss;
     }
 
     public String getEmailAddress() {
@@ -50,8 +50,8 @@ public class Member {
         return lastName;
     }
 
-    public void setINSS(String INSS) {
-        this.INSS = INSS;
+    public void setInss(String inss) {
+        this.inss = inss;
     }
 
     public void setEmailAddress(String emailAddress) {
