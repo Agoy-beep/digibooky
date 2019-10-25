@@ -16,7 +16,7 @@ class MemberMapperTest {
         MemberDto memberDto = memberMapper.convertMemberToDto(member);
         //THEN
         Assertions.assertThat(memberDto.getFirstName()).isEqualTo(member.getFirstName());
-        Assertions.assertThat(memberDto.getPostalCode()).isEqualTo("null");
+        Assertions.assertThat(memberDto.getPostalCode()).isEqualTo(null);
     }
 
     @Test
