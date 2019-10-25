@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BookServiceTest {
+
     BookDataBaseDummy dumdum = new BookDataBaseDummy();
     BookRepository repo = new BookRepository(dumdum);
     BookService bookService = new BookService(repo);

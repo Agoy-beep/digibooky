@@ -19,7 +19,7 @@ public class DatabaseConfig {
     @Bean("productionBookDatabase")
     @Profile("test")
     public BookDataBaseDummy bookDataBaseDummy() {
-        return new BookDataBaseDummy(generateInitialData());
+        return new BookDataBaseDummy();
     }
 
     private HashMap<String, Book> generateInitialData() {
