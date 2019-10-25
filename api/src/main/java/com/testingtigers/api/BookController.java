@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.sound.midi.Soundbank;
 import java.util.List;
-
 
 @RestController
 @RequestMapping(path = "/books")
@@ -28,42 +28,43 @@ public class BookController {
 
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public List<BookDto> getAllBooks(){
+    public List<BookDto> getAllBooks() {
         return bookService.makeListOfBookDtos();
     }
 
     @GetMapping(path = "{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
-    public BookDto getSpecificBook(@PathVariable ("id") String id){
+    public BookDto getSpecificBook(@PathVariable("id") String id) {
         return bookService.returnSpecificBookBasedOnId(id);
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
+
     public BookDto createBook(CreateBookDto createdBookDto){
         return bookService.createBookDto(createdBookDto);
+
     }
 
-    @GetMapping(path = "/ISBN/{ISBN}",produces = "application/json")
+    @GetMapping(path = "/ISBN/{ISBN}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public List<BookDto> getBookByISBN(@PathVariable("ISBN") String ISBN) {
         //usage localhost:8080/books\ISBN\123-456-danny
         return bookService.returnBooksByISBN(ISBN);
     }
-    @GetMapping(path = "/title/{title}",produces = "application/json")
+
+    @GetMapping(path = "/title/{title}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public List<BookDto> getBookByTitle(@PathVariable("title") String title) {
         return bookService.returnBooksByTitle(title);
     }
-    @GetMapping(path = "/author/{firstName}{lastName}",produces = "application/json")
+
+    @GetMapping(path = "/author/", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
-    public List<BookDto> getBookByTitle(
-            @PathVariable("firstName") String firstName ,
-            @PathVariable("lastName") String lastName) {
-        return bookService.returnBooksByAuthor(firstName,lastName);
+    public List<BookDto> getBookByAuthor(
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName) {
+        return bookService.returnBooksByAuthor(firstName, lastName);
     }
-
-
-
 
 }
