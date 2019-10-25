@@ -3,13 +3,20 @@ package com.testingtigers.domain.dtos;
 public class CreateMemberDto {
 
     private String INSS;
-    private String emailAdress;
+    private String emailAddress;
     private String firstName;
     private String lastName;
     private String city;
     private String postalCode;
     private String streetName;
     private String streetNumber;
+
+    public CreateMemberDto(String INSS, String emailAddress, String lastName, String city) {
+        this.INSS = INSS;
+        this.emailAddress = emailAddress;
+        this.lastName = lastName;
+        this.city = city;
+    }
 
     public CreateMemberDto() {
     }
@@ -22,12 +29,12 @@ public class CreateMemberDto {
         this.INSS = INSS;
     }
 
-    public String getEmailAdress() {
-        return emailAdress;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setEmailAdress(String emailAdress) {
-        this.emailAdress = emailAdress;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public String getFirstName() {

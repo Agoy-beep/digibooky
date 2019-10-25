@@ -6,8 +6,6 @@ import com.testingtigers.domain.repositories.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class MemberServiceTest {
 
     @Test
@@ -16,7 +14,7 @@ class MemberServiceTest {
         MemberService memberService = new MemberService(new MemberRepository());
         CreateMemberDto createDto = new CreateMemberDto();
         createDto.setINSS("455");
-        createDto.setEmailAdress("hallo@gmail.com");
+        createDto.setEmailAddress("hallo@gmail.com");
         createDto.setFirstName("ddd");
         createDto.setLastName("Thaha");
         createDto.setCity("sad");
@@ -27,7 +25,10 @@ class MemberServiceTest {
         //WHEN
 
         //THEN
-        Assertions.assertThat(newMember.getPostalCode()).isEqualTo("asd");
+        Assertions.assertThat(newMember.getINSS()).isEqualTo("455");
+        Assertions.assertThat(newMember.getEmailAdress()).isEqualTo("hallo@gmail.com");
+        Assertions.assertThat(newMember.getLastName()).isEqualTo("Thaha");
+        Assertions.assertThat(newMember.getCity()).isEqualTo("sad");
     }
 
     @Test
@@ -36,7 +37,7 @@ class MemberServiceTest {
         MemberService memberService = new MemberService(new MemberRepository());
         CreateMemberDto createDto = new CreateMemberDto();
         createDto.setINSS("");
-        createDto.setEmailAdress("");
+        createDto.setEmailAddress("");
         createDto.setFirstName("");
         createDto.setLastName("");
         createDto.setCity("");

@@ -1,7 +1,5 @@
 package com.testingtigers.domain.users;
 
-import org.springframework.stereotype.Component;
-
 import java.util.UUID;
 
 
@@ -9,7 +7,7 @@ public class Member {
 
     private String INSS;
     private final String id;
-    private String emailAdress;
+    private String emailAddress;
     private String firstName;
     private String lastName;
     private String city;
@@ -21,16 +19,16 @@ public class Member {
         return id;
     }
 
-    public Member(String INSS, String emailAdress, String lastName, String city) {
+    public Member(String INSS, String emailAddress, String lastName, String city) {
         id = UUID.randomUUID().toString();
-        if (INSS == null || emailAdress == null || lastName == null || city == null) {
+        if (INSS == null || emailAddress == null || lastName == null || city == null) {
             throw new IllegalArgumentException("Please fill in all fields");
         }
         this.INSS = INSS;
         this.lastName = lastName;
         this.city = city;
-        if (isEmailValid(emailAdress)) {
-            this.emailAdress = emailAdress;
+        if (isEmailValid(emailAddress)) {
+            this.emailAddress = emailAddress;
         } else {
             throw new IllegalArgumentException("Invalid email");
         }
@@ -40,8 +38,8 @@ public class Member {
         return INSS;
     }
 
-    public String getEmailAdress() {
-        return emailAdress;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
     public String getFirstName() {
@@ -50,6 +48,22 @@ public class Member {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public void setINSS(String INSS) {
+        this.INSS = INSS;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getCity() {

@@ -8,7 +8,7 @@ public class MemberMapper {
         MemberDto memberDto = new MemberDto();
         memberDto.setINSS(member.getINSS());
         memberDto.setId(member.getId());
-        memberDto.setEmailAdress(member.getEmailAdress());
+        memberDto.setEmailAdress(member.getEmailAddress());
         memberDto.setFirstName(member.getFirstName());
         memberDto.setLastName(member.getLastName());
         memberDto.setCity(member.getCity());
