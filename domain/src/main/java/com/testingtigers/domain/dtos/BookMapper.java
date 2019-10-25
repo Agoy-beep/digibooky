@@ -2,7 +2,7 @@ package com.testingtigers.domain.dtos;
 
 import com.testingtigers.domain.Book;
 
-public class Mapper {
+public class BookMapper {
 
 
     public Book mapToBook(CreateBookDto createBookDto){
@@ -15,6 +15,7 @@ public class Mapper {
         bookDto.setIsbn(book.getIsbn());
         bookDto.setTitle(book.getTitle());
         bookDto.setSummary(book.getSummary());
+        bookDto.setUniqueId(book.getId());
 
         return bookDto;
 
