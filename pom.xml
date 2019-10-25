@@ -47,6 +47,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
             <!--
                 An 'Illegal Reflective acces operation' warning is given in the logs by the org.codehaus.groovy Groovy 2.X
                 dependency of rest-assured. This issue is fixed in org.codehaus.groovy Groovy 3.0 (as of writing in Beta)
