@@ -8,6 +8,9 @@ import com.testingtigers.domain.users.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class MemberService {
     private MemberRepository memberRepository;
@@ -28,6 +31,12 @@ public class MemberService {
         registeredMember.setStreetNumber(memberToRegister.getStreetNumber());
         memberRepository.addMember(registeredMember);
         return memberMapper.convertMemberToDto(registeredMember);
+    }
+
+    public List<MemberDto> viewAllMembers() {
+        List<MemberDto> allMembers = new ArrayList<>();
+        memberRepository.getAll().forEach(member -> allMembers.add(memberMapper.convertMemberToDtoWithoutInss(member)));
+        return allMembers;
     }
 }
 
