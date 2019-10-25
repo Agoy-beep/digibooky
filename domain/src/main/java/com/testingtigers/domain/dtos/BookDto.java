@@ -31,23 +31,28 @@ public class BookDto {
         return summary;
     }
 
-    public void setIsbn(String isbn) {
+    public BookDto setIsbn(String isbn) {
         this.isbn = isbn;
+        return this;
     }
 
-    public void setTitle(String title) {
+    public BookDto setTitle(String title) {
         this.title = title;
+        return this;
     }
 
-    public void setAuthorID(String authorID) {
+    public BookDto setAuthorID(String authorID) {
         this.authorID = authorID;
+        return this;
     }
 
-    public void setSummary(String summary) {
+    public BookDto setSummary(String summary) {
         this.summary = summary;
+        return this;
     }
 
-    public void setUniqueId(String uniqueId) {
+    public BookDto setUniqueId(String uniqueId) {
         this.uniqueId = uniqueId;
+        return this;
     }
 }

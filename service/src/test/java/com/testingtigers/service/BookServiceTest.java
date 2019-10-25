@@ -6,16 +6,12 @@ import com.testingtigers.domain.dtos.BookMapper;
 import com.testingtigers.domain.dtos.CreateBookDto;
 import com.testingtigers.domain.repositories.BookDataBaseDummy;
 import com.testingtigers.domain.repositories.BookRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class BookServiceTest {
 
@@ -58,7 +54,7 @@ class BookServiceTest {
         createBookDto.setTitle("Title");
         createBookDto.setSummary("SUM");
         //WHEN
-        BookDto newBookDto = bookService.createBookDto(createBookDto);
+        BookDto newBookDto = bookService.registerBookAndReturnDto(createBookDto);
         //THEN
         assertThat(newBookDto.getTitle()).isEqualTo("Title");
         assertThat(newBookDto.getUniqueId()).isNotBlank();

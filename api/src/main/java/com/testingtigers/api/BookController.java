@@ -1,8 +1,8 @@
 package com.testingtigers.api;
 
-import com.testingtigers.domain.Book;
 import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.CreateBookDto;
+import com.testingtigers.domain.dtos.UpdateBookDto;
 import com.testingtigers.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public class BookController {
         return bookService.makeListOfBookDtos();
     }
 
-    @GetMapping(path = "{id}", produces = "application/json")
+    @GetMapping(path = "/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public BookDto getSpecificBook(@PathVariable ("id") String id){
         return bookService.returnSpecificBookBasedOnId(id);
@@ -39,8 +39,8 @@ public class BookController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDto createBook(CreateBookDto createdBookDto){
-        return bookService.createBookDto(createdBookDto);
+    public BookDto createBook(@RequestBody CreateBookDto createdBookDto){
+        return bookService.registerBookAndReturnDto(createdBookDto);
     }
 
     @GetMapping(path = "/ISBN/{ISBN}",produces = "application/json")
@@ -53,6 +53,11 @@ public class BookController {
     @ResponseStatus(HttpStatus.FOUND)
     public List<BookDto> getBookByTitle(@PathVariable("title") String title) {
         return bookService.returnBooksByTitle(title);
+    }
+    @PutMapping(params = "/{id}", consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public BookDto updateBook(@RequestParam ("id") String id, @RequestBody UpdateBookDto updateBookDto){
+        return bookService.updateSpecificBook(id, updateBookDto);
     }
 
 }
