@@ -41,4 +41,14 @@ public class BookService {
         bookRepository.addBookToDataBase(newBook);
         return bookMapper.mapToDto(newBook);
     }
+
+    public BookRepository getBookRepository() { return bookRepository;}
+
+    public List<BookDto> returnBooksByISBN(String isbn) {
+        return bookRepository.getBookByISBN(isbn);
+    }
+
+    public List<BookDto> returnBooksByTitle(String title) {
+        return bookRepository.getBookByTitle(title);
+    }
 }

@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BookServiceTest {
     Map<String, Book> db = new HashMap<>();
-    BookDataBaseDummy dumdum = new BookDataBaseDummy(db);
+    BookDataBaseDummy dumdum = new BookDataBaseDummy();
     BookRepository repo = new BookRepository(dumdum);
     BookService bookService = new BookService(repo);
 

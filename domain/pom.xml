@@ -11,5 +11,12 @@
 
     <artifactId>domain</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.yevdo</groupId>
+            <artifactId>jwildcard</artifactId>
+
+        </dependency>
+    </dependencies>
 
 </project>
