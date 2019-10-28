@@ -82,7 +82,7 @@ public class LentController {
         try {
             dateToCheck = new SimpleDateFormat("dd/MM/yyyy").parse(dateToCheckAsString);
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Use date format dd/MM/yyyy");
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Use date format dd/MM/yyyy");
         }
 
         return lentService.getAllBooksOverdue(dateToCheck);
