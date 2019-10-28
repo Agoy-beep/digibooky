@@ -43,7 +43,7 @@ public class BookController {
     @GetMapping(path = "/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public BookDto getSpecificBook(@PathVariable("id") String id) {
-        logger.info("A book was queried by ID:" + id + ".");
+        logger.info("A book was queried with ID:" + id + ".");
         return bookService.returnSpecificBookBasedOnId(id);
     }
 

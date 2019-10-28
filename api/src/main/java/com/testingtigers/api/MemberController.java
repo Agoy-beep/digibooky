@@ -31,6 +31,8 @@ public class MemberController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public MemberDto registerMember(@RequestBody CreateMemberDto memberToCreate) {
+        logger.info("User attempted to create a member with name: " + memberToCreate.getFirstName() +
+                memberToCreate.getLastName() + ".");
         return memberService.registerMember(memberToCreate);
     }
 
@@ -38,6 +40,7 @@ public class MemberController {
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public List<MemberDto> viewAllMembers() {
+        logger.info("User attempted to get a list of all the members.");
         return memberService.viewAllMembers();
     }
 
@@ -45,6 +48,7 @@ public class MemberController {
     @PostMapping(consumes = "application/json", path = "/admin")
     @ResponseStatus(HttpStatus.CREATED)
     public void registerAdmin(@RequestBody CreateAdminOrLibrarianDto adminToCreate) {
+        logger.info("An administrator was created.");
         memberService.registerAdmin(adminToCreate);
     }
 
@@ -53,6 +57,7 @@ public class MemberController {
     @PostMapping(consumes = "application/json", path = "/librarian")
     @ResponseStatus(HttpStatus.CREATED)
     public void registerLibrarian(@RequestBody CreateAdminOrLibrarianDto librarianToCreate) {
+        logger.info("A librarian was created");
         memberService.registerLibrarian(librarianToCreate);
     }
 
