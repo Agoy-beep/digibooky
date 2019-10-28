@@ -1,9 +1,12 @@
 package com.testingtigers.service;
 
+import com.testingtigers.domain.dtos.CreateAdminDto;
 import com.testingtigers.domain.dtos.CreateMemberDto;
 import com.testingtigers.domain.dtos.MemberDto;
 import com.testingtigers.domain.dtos.MemberMapper;
+import com.testingtigers.domain.repositories.AdminRepository;
 import com.testingtigers.domain.repositories.MemberRepository;
+import com.testingtigers.domain.users.Admin;
 import com.testingtigers.domain.users.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,10 +18,12 @@ import java.util.List;
 public class MemberService {
     private MemberRepository memberRepository;
     private MemberMapper memberMapper;
+    private AdminRepository adminRepository;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, AdminRepository adminRepository) {
         this.memberRepository = memberRepository;
+        this.adminRepository = adminRepository;
         this.memberMapper = new MemberMapper();
     }
 
@@ -37,6 +42,10 @@ public class MemberService {
         List<MemberDto> allMembers = new ArrayList<>();
         memberRepository.getAll().forEach(member -> allMembers.add(memberMapper.convertMemberToDtoWithoutInss(member)));
         return allMembers;
+    }
+
+    public void registerAdmin(CreateAdminDto adminToCreate) {
+        adminRepository.adAdmin(new Admin(adminToCreate.getLastName(), adminToCreate.getFirstName(), adminToCreate.getEmail()));
     }
 }
 

@@ -1,5 +1,6 @@
 package com.testingtigers.api;
 
+import com.testingtigers.domain.dtos.CreateAdminDto;
 import com.testingtigers.domain.dtos.CreateMemberDto;
 import com.testingtigers.domain.dtos.MemberDto;
 import com.testingtigers.service.MemberService;
@@ -35,5 +36,12 @@ public class MemberController {
     @ResponseStatus(HttpStatus.OK)
     public List<MemberDto> viewAllMembers() {
         return memberService.viewAllMembers();
+    }
+
+    @PreAuthorize("hasAuthority('REGISTER_ADMIN')")
+    @PostMapping(consumes = "application/json", path = "/admin")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerAdmin(@RequestBody CreateAdminDto adminToCreate) {
+        memberService.registerAdmin(adminToCreate);
     }
 }
