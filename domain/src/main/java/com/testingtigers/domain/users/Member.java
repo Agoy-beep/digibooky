@@ -3,7 +3,7 @@ package com.testingtigers.domain.users;
 import java.util.UUID;
 
 
-public class Member {
+public class Member implements Authenticatable {
 
     private String inss;
     private final String id;
@@ -14,6 +14,9 @@ public class Member {
     private String postalCode;
     private String streetName;
     private String streetNumber;
+    private Role role;
+    private String password;
+
 
     public String getId() {
         return id;
@@ -27,6 +30,8 @@ public class Member {
         this.inss = INSS;
         this.lastName = lastName;
         this.city = city;
+        role = Role.MEMBER;
+        password = "member";
         if (isEmailValid(emailAddress)) {
             this.emailAddress = emailAddress;
         } else {
@@ -105,5 +110,20 @@ public class Member {
     public Member setPostalCode(String postalCode) {
         this.postalCode = postalCode;
         return this;
+    }
+
+    @Override
+    public String getEmail() {
+        return emailAddress;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public Role getRole() {
+        return role;
     }
 }
