@@ -13,6 +13,17 @@ public class BookLent {
     final Date lentDate;
     final String lentID;
 
+    public String getBookID() {
+        return bookID;
+    }
+
+    public String getLendeeID() {
+        return lendeeID;
+    }
+
+    public Date getLentDate() {
+        return lentDate;
+    }
 
     public String getLentID() {
         return lentID;

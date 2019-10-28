@@ -3,6 +3,7 @@ package com.testingtigers.service;
 import com.testingtigers.domain.Author;
 import com.testingtigers.domain.Book;
 import com.testingtigers.domain.BookLent;
+import com.testingtigers.domain.dtos.BookLentDto;
 import com.testingtigers.domain.dtos.BookMapper;
 import com.testingtigers.domain.repositories.AuthorRepository;
 import com.testingtigers.domain.repositories.BookRepository;
@@ -34,6 +35,9 @@ public class LentService {
             throw new IllegalArgumentException("Member or book or date is null. Please retry with both values");
         if (bookRepository.getById(bookID)==null) return null; // exception is catched in bookrepository
         if (memberRepository.getMemberByID(lenderID) == null) return null; // exception is catched memberrepository
+        if (lentRepository.isBookIDInRepository(bookID))
+            throw new IllegalArgumentException("Book is already lent out");
+
         return lentRepository.
                 addBookToLent(bookRepository.getById(bookID),
                         memberRepository.getMemberByID(lenderID),
@@ -43,6 +47,11 @@ public class LentService {
     @Bean
     public List<BookLent> getAllLentBooks() {
         return lentRepository.getAllLentsAsList();
+    }
+
+    @Bean
+    public List<BookLentDto> getAllLentBooksAsDto() {
+        return lentRepository.getAllLentsAsListDto();
     }
 
 
