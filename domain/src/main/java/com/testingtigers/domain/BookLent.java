@@ -1,16 +1,17 @@
 package com.testingtigers.domain;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.apache.groovy.json.internal.Dates;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
 public class BookLent {
     final String bookID;
     final String lendeeID;
-    final Date lentDate;
+    final Date lentStartDate;
+
+    final Date lentEndDate;
     final String lentID;
 
     public String getBookID() {
@@ -21,19 +22,24 @@ public class BookLent {
         return lendeeID;
     }
 
-    public Date getLentDate() {
-        return lentDate;
+    public Date getLentStartDate() {
+        return lentStartDate;
     }
 
     public String getLentID() {
         return lentID;
     }
 
+    public Date getLentEndDate() {
+        return lentEndDate;
+    }
 
-    public BookLent(String bookID, String lendeeID, Date lentDate) {
+    public BookLent(String bookID, String lendeeID, Date lentStartDate, Date lentEndDate) {
         this.bookID = bookID;
         this.lendeeID = lendeeID;
-        this.lentDate = lentDate;
+        this.lentStartDate = lentStartDate;
+        this.lentEndDate = lentEndDate;
+
         lentID = UUID.randomUUID().toString();
     }
 }

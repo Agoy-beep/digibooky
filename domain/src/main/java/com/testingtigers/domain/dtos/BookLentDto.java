@@ -1,12 +1,13 @@
 package com.testingtigers.domain.dtos;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class BookLentDto {
     String bookID;
     String lendeeID;
-    Date lentDate;
+    Date lentStartDate;
+    Date lentEndDate;
+    String lentID;
 
     public String getBookID() {
         return bookID;
@@ -16,8 +17,8 @@ public class BookLentDto {
         return lendeeID;
     }
 
-    public Date getLentDate() {
-        return lentDate;
+    public Date getLentStartDate() {
+        return lentStartDate;
     }
 
     public void setBookID(String bookID) {
@@ -28,18 +29,23 @@ public class BookLentDto {
         this.lendeeID = lendeeID;
     }
 
-    public void setLentDate(Date lentDate) {
-        this.lentDate = lentDate;
+    public void setLentStartDate(Date lentStartDate) {
+        this.lentStartDate = lentStartDate;
     }
 
     public void setLentID(String lentID) {
         this.lentID = lentID;
     }
 
-    String lentID;
-
     public String getLentID() {
         return lentID;
     }
 
+    public void setLentEndDate(Date lentEndDate) {
+        this.lentEndDate = lentEndDate;
+    }
+
+    public Date getLentEndDate() {
+        return lentEndDate;
+    }
 }
