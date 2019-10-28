@@ -3,12 +3,12 @@ package com.testingtigers.domain.dtos;
 public class CreateAdminDto {
     private String firstName;
     private String lastName;
-    private String email;
+    private String emailAddress;
 
-    public CreateAdminDto(String firstName, String lastName, String email) {
+    public CreateAdminDto(String firstName, String lastName, String emailAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
+        this.emailAddress = emailAddress;
     }
 
     public String getFirstName() {
@@ -28,10 +28,10 @@ public class CreateAdminDto {
     }
 
     public String getEmail() {
-        return email;
+        return emailAddress;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.emailAddress = email;
     }
 }

@@ -2,6 +2,7 @@ package com.testingtigers.service;
 
 import com.testingtigers.domain.dtos.CreateMemberDto;
 import com.testingtigers.domain.dtos.MemberDto;
+import com.testingtigers.domain.repositories.AdminRepository;
 import com.testingtigers.domain.repositories.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ class MemberServiceTest {
     @Test
     void givenValidCreateDtoEverytingWorks() {
         //GIVEN
-        MemberService memberService = new MemberService(new MemberRepository());
+        MemberService memberService = new MemberService(new MemberRepository(), new AdminRepository());
         CreateMemberDto createDto = new CreateMemberDto();
         createDto.setInss("455");
         createDto.setEmailAddress("hallo@gmail.com");
@@ -34,7 +35,7 @@ class MemberServiceTest {
     @Test
     void givenEmptyCreateDtoThenError() {
         //GIVEN
-        MemberService memberService = new MemberService(new MemberRepository());
+        MemberService memberService = new MemberService(new MemberRepository(), new AdminRepository());
         CreateMemberDto createDto = new CreateMemberDto();
         createDto.setInss("");
         createDto.setEmailAddress("");
