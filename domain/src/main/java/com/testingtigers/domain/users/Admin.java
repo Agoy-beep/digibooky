@@ -10,6 +10,7 @@ public class Admin implements Authenticatable {
     private String lastName;
     private String firstName;
     private String email;
+
     private String password;
 
     public Admin(String lastName, String firstName, String email) {
@@ -22,6 +23,10 @@ public class Admin implements Authenticatable {
         }
         this.id = UUID.randomUUID().toString();
         password = DEFAULT_PASSWORD;
+    }
+
+    public String getId() {
+        return id;
     }
 
     @Override

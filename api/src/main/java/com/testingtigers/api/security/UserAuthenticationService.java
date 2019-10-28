@@ -1,24 +1,34 @@
 package com.testingtigers.api.security;
 
-import com.testingtigers.domain.users.Admin;
+import com.testingtigers.domain.repositories.AdminRepository;
+import com.testingtigers.domain.repositories.MemberRepository;
 import com.testingtigers.domain.users.Authenticatable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserAuthenticationService {
 
-    private List<Authenticatable> userAuthenticatons;
+    private MemberRepository members;
+    private AdminRepository admins;
 
-    public UserAuthenticationService() {
-        userAuthenticatons = new ArrayList<>();
-        userAuthenticatons.add(new Admin("admin", "admin", "admin@admin.com"));
+    @Autowired
+    public UserAuthenticationService(MemberRepository members, AdminRepository admins) {
+        this.members = members;
+        this.admins = admins;
     }
 
     public Authenticatable getUser(String email, String password) {
-        return userAuthenticatons.stream()
+        Authenticatable result = admins.getAll().stream()
+                .filter(authenticatable -> authenticatable.getEmail().equals(email))
+                .filter(authenticatable -> authenticatable.getPassword().equals(password))
+                .findFirst()
+                .orElse(null);
+
+        if (result != null) {
+            return result;
+        }
+        return members.getAll().stream()
                 .filter(authenticatable -> authenticatable.getEmail().equals(email))
                 .filter(authenticatable -> authenticatable.getPassword().equals(password))
                 .findFirst()
