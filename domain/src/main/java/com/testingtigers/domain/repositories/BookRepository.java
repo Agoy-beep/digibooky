@@ -36,14 +36,19 @@ public class BookRepository {
         List<Book> bookList = new ArrayList<>(databaseBooks.getBookDB().values());
         for (Book bookToExam : bookList) {
             if (bookToExam.getId().equals(IDToDelete)) {
-                System.out.println("Happy path 1");
                 bookToExam.setSoftDelete(true);
-                System.out.println("Happy path 2");
                 return bookMapper.mapToDto(bookToExam);
             }
         }
         throw new IllegalArgumentException("Book with ID "+IDToDelete+ " not found to soft-delete");
     }
+    /*
+    "isbn": "123-456-danny",
+        "uniqueId": "326eeb5a-71f6-4641-8056-e4c44be24fe4",
+        "title": "DannyTitle",
+        "authorID": "ba248be4-af17-422b-b188-fede5b27e83d",
+        "summary": "DannySummery"
+     */
 
     public BookDto undeleteBookFromDatabaseByID(String IDToUnDelete) {
         List<Book> bookList = new ArrayList<>(databaseBooks.getBookDB().values());

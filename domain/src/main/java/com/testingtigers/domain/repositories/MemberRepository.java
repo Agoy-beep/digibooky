@@ -13,7 +13,12 @@ public class MemberRepository {
     private final Map<String, Member> members;
 
     public MemberRepository() {
+
         this.members = new HashMap<>();
+
+        // made by Danny for test purpose :
+        Member memberToAdd = new Member("666", "jesus@heaven.hell", "christ","bethlehem");
+        members.put(memberToAdd.getId(), memberToAdd);
     }
 
     public Member addMember(Member memberToAdd) {
