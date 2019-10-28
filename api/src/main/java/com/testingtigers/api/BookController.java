@@ -36,12 +36,14 @@ public class BookController {
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public List<BookDto> getAllBooks() {
+        logger.info("A list of all the books in the database was queried.");
         return bookService.makeListOfBookDtos();
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public BookDto getSpecificBook(@PathVariable("id") String id) {
+        logger.info("A book was queried by ID:" + id + ".");
         return bookService.returnSpecificBookBasedOnId(id);
     }
 

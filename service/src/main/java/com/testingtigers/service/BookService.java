@@ -54,10 +54,12 @@ public class BookService {
     }
 
     public BookDto returnSpecificBookBasedOnId(String id){
-        if(bookRepository.getById(id) == null){
-            throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book by id: " + id + " was not found.");
+        for(Book book : bookRepository.getAllBooks()){
+            if(id.equals(book.getId())){
+                return bookMapper.mapToDto(bookRepository.getById(id));
+            }
         }
-        return bookMapper.mapToDto(bookRepository.getById(id));
+        throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book with id: " + id + " was not found.");
     }
 
     public BookDto registerBookAndReturnDto(CreateBookDto createBookDto, AuthorDto authorDto){
@@ -67,12 +69,17 @@ public class BookService {
     }
 
     public BookDto updateSpecificBook(String id, UpdateBookDto updateBookDto){
-        Book bookToUpdate = bookRepository.getById(id);
-        Book bookWithNewInfo = bookMapper.mapToBook(updateBookDto);
-        bookToUpdate.setAuthorID(bookWithNewInfo.getAuthorID());
-        bookToUpdate.setTitle(bookWithNewInfo.getTitle());
-        bookToUpdate.setSummary(bookWithNewInfo.getSummary());
-        return bookMapper.mapToDto(bookToUpdate);
+        for(Book book : bookRepository.getAllBooks()) {
+            if (id.equals(book.getId())) {
+                Book bookToUpdate = bookRepository.getById(id);
+                Book bookWithNewInfo = bookMapper.mapToBook(updateBookDto);
+                bookToUpdate.setAuthorID(bookWithNewInfo.getAuthorID());
+                bookToUpdate.setTitle(bookWithNewInfo.getTitle());
+                bookToUpdate.setSummary(bookWithNewInfo.getSummary());
+                return bookMapper.mapToDto(bookToUpdate);
+            }
+        }
+        throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book with id: " + id + " was not found.");
     }
     public BookRepository getBookRepository() { return bookRepository;}
 
