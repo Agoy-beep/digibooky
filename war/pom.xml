@@ -7,6 +7,7 @@
         <groupId>com.testingtigers</groupId>
         <version>0.1</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>war</artifactId>
@@ -15,7 +16,19 @@
         <dependency>
             <groupId>com.testingtigers</groupId>
             <artifactId>api</artifactId>
-            <version>0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-path</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>xml-path</artifactId>
         </dependency>
     </dependencies>
+
 </project>
