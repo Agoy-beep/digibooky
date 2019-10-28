@@ -1,8 +1,10 @@
 package com.testingtigers.api;
 
+import com.testingtigers.domain.dtos.AuthorDto;
 import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.CreateBookDto;
 import com.testingtigers.domain.dtos.UpdateBookDto;
+import com.testingtigers.service.AuthorService;
 import com.testingtigers.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +20,13 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
+    private final AuthorService authorService;
     public static Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, AuthorService authorService) {
         this.bookService = bookService;
+        this.authorService = authorService;
     }
 
     @GetMapping(produces = "application/json")
@@ -39,9 +43,10 @@ public class BookController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-
     public BookDto createBook(@RequestBody CreateBookDto createdBookDto){
-        return bookService.registerBookAndReturnDto(createdBookDto);
+        AuthorDto authorDto = authorService.findSpecificAuthorIfNotFoundCreateNewAuthor(createdBookDto.getAuthorLastName());
+
+        return bookService.registerBookAndReturnDto(createdBookDto, authorDto);
     }
 
     @GetMapping(path = "/delete/{id}", produces = "application/json")

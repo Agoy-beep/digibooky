@@ -1,9 +1,8 @@
 package com.testingtigers.service;
 
+import com.testingtigers.domain.Author;
 import com.testingtigers.domain.Book;
-import com.testingtigers.domain.dtos.BookDto;
-import com.testingtigers.domain.dtos.BookMapper;
-import com.testingtigers.domain.dtos.CreateBookDto;
+import com.testingtigers.domain.dtos.*;
 import com.testingtigers.domain.repositories.AuthorRepository;
 import com.testingtigers.domain.repositories.BookDataBaseDummy;
 import com.testingtigers.domain.repositories.BookRepository;
@@ -21,6 +20,7 @@ class BookServiceTest {
     AuthorRepository authorRepository = new AuthorRepository();
     BookService bookService = new BookService(bookRepository,authorRepository);
     BookMapper bookMapper = new BookMapper();
+    AuthorMapper authorMapper = new AuthorMapper();
 
     @Test
     void makeListOfBookDtos() {
@@ -46,21 +46,23 @@ class BookServiceTest {
         assertThat(bookDto.getTitle()).isEqualTo(book.getTitle());
     }
 
-    /*@Test
+    @Test
     void createBook() {
         //GIVEN
 
         CreateBookDto createBookDto = new CreateBookDto();
         createBookDto.setIsbn("ISBN");
-        createBookDto.setAuthorLastName("A4");
+        createBookDto.setAuthorLastName("Willis");
         createBookDto.setTitle("Title");
-        createBookDto.setSummary("SUM");
+
+        Author newAuthor = new Author("Blank", createBookDto.getAuthorLastName());
+        AuthorDto authorDto = authorMapper.mapToDto(newAuthor);
         //WHEN
-        BookDto newBookDto = bookService.registerBookAndReturnDto(createBookDto);
+        BookDto newBookDto = bookService.registerBookAndReturnDto(createBookDto, authorDto);
         //THEN
         assertThat(newBookDto.getTitle()).isEqualTo("Title");
         assertThat(newBookDto.getUniqueId()).isNotBlank();
-        assertThat(newBookDto.getAuthorID()).isEqualTo("A4");
+        assertThat(newBookDto.getAuthorID()).isEqualTo(authorDto.getAuthorID());
         assertThat(newBookDto.getIsbn()).isEqualTo("ISBN");
-    }*/
+    }
 }

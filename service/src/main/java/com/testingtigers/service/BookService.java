@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -41,7 +42,6 @@ public class BookService {
     }
 
     public List<BookDto> makeListOfBookDtos() {
-        ///////////////
         List<BookDto> bookDtos = new ArrayList<>();
         for (Book book : bookRepository.getAllBooks()) {
             bookDtos.add(bookMapper.mapToDto(book));
@@ -54,8 +54,8 @@ public class BookService {
         return bookMapper.mapToDto(bookRepository.getById(id));
     }
 
-    public BookDto registerBookAndReturnDto(CreateBookDto createBookDto){
-        Book newBook = bookMapper.mapToBook(createBookDto);
+    public BookDto registerBookAndReturnDto(CreateBookDto createBookDto, AuthorDto authorDto){
+        Book newBook = bookMapper.mapToBook(createBookDto, authorDto);
         bookRepository.addBookToDataBase(newBook);
         return bookMapper.mapToDto(newBook);
     }
@@ -88,4 +88,5 @@ public class BookService {
     public BookDto undeleteBookByID(String id) {
         return bookRepository.undeleteBookFromDatabaseByID(id);
     }
+
 }

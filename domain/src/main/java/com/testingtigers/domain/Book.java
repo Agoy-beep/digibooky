@@ -14,8 +14,6 @@ public class Book {
     private String summary;
     private boolean softDeleted; // DO NOT MAKE FINAL
 
-
-
     public Book(String isbn, String title, String authorID, String summary) {
         this.isbn = isbn;
         this.title = title;
@@ -23,6 +21,15 @@ public class Book {
         this.summary = summary;
         this.uniqueId = UUID.randomUUID().toString();
         setSoftDelete(false);
+    }
+
+    //to update a book
+    public Book( String title, String authorID, String summary) {
+        this.isbn = "BLANK";
+        this.title = title;
+        this.authorID = authorID;
+        this.summary = summary;
+        this.uniqueId = "BLANK";
     }
 
     public boolean isSoftDeleted() {
@@ -33,13 +40,6 @@ public class Book {
         return softDeleted = value;
     }
 
-    public Book( String title, String authorID, String summary) {
-        this.isbn = "BLANK";
-        this.title = title;
-        this.authorID = authorID;
-        this.summary = summary;
-        this.uniqueId = "BLANK";
-    }
 
     public String getIsbn() {
         return isbn;
@@ -66,6 +66,10 @@ public class Book {
     public String toString() {
         // for test purposes
         return "ToString : " + getId() + " " + getIsbn() + " " + getTitle();
+    }
+
+    public void setIsbn(String isbn){
+        this.isbn = isbn;
     }
 
     public void setTitle(String title) {
