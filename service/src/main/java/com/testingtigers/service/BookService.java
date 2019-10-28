@@ -8,6 +8,7 @@ import com.testingtigers.domain.dtos.CreateBookDto;
 import com.testingtigers.domain.dtos.BookMapper;
 import com.testingtigers.domain.dtos.UpdateBookDto;
 import com.testingtigers.domain.exceptions.AuthorNotFound;
+import com.testingtigers.domain.exceptions.BookNotFound;
 import com.testingtigers.domain.repositories.AuthorRepository;
 import com.testingtigers.domain.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,9 @@ public class BookService {
     }
 
     public BookDto returnSpecificBookBasedOnId(String id){
+        if(bookRepository.getById(id) == null){
+            throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book by id: " + id + " was not found.");
+        }
         return bookMapper.mapToDto(bookRepository.getById(id));
     }
 
