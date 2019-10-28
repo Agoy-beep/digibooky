@@ -37,7 +37,7 @@ class MemberControllerIntegrationTest {
                         .extract()
                         .as(MemberDto.class);
 
-                //THEN
+        //THEN
         assertThat(memberDto.getCity()).isEqualTo("bxl");
     }
 }

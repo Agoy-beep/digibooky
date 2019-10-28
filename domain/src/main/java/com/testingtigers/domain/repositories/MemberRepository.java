@@ -1,13 +1,12 @@
 package com.testingtigers.domain.repositories;
 
 import com.testingtigers.domain.users.Member;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
 @Component
 public class MemberRepository {
 
@@ -26,4 +25,9 @@ public class MemberRepository {
         return members.values();
     }
 
+    public Member getMemberByID(String memberID) {
+        if (! members.containsKey(memberID)) {
+            throw new IllegalArgumentException("Member not found");   }
+        return members.get(memberID);
+    }
 }
