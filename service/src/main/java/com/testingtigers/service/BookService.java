@@ -40,6 +40,7 @@ public class BookService {
     }
 
     public List<BookDto> makeListOfBookDtos() {
+        ///////////////
         List<BookDto> bookDtos = new ArrayList<>();
         for (Book book : bookRepository.getAllBooks()) {
             bookDtos.add(bookMapper.mapToDto(book));

@@ -34,13 +34,10 @@ public class BookRepository {
 
     public BookDto deleteBookFromDatabaseByID(String IDToDelete) {
         List<Book> bookList = new ArrayList<>(databaseBooks.getBookDB().values());
-        System.out.println("To Delete " + IDToDelete);
-        System.out.println(bookList);
-        System.out.println("Almost Happy path");
         for (Book bookToExam : bookList) {
             if (bookToExam.getId().equals(IDToDelete)) {
                 System.out.println("Happy path 1");
-                bookToExam.setSoftDelete(false);
+                bookToExam.setSoftDelete(true);
                 System.out.println("Happy path 2");
                 return bookMapper.mapToDto(bookToExam);
             }
@@ -52,8 +49,8 @@ public class BookRepository {
         List<Book> bookList = new ArrayList<>(databaseBooks.getBookDB().values());
 
         for (Book bookToExam : bookList) {
-            if (bookToExam.getId() == IDToUnDelete) {
-                bookToExam.setSoftDelete(true);
+            if (bookToExam.getId().equals(IDToUnDelete)) {
+                bookToExam.setSoftDelete(false);
                 return bookMapper.mapToDto(bookToExam);
             }
         }
@@ -71,9 +68,7 @@ public class BookRepository {
     }
 
     public List<Book> getAllBooks() {
-        //return filterOutSoftDeletedBooks(new ArrayList<>(databaseBooks.getBookDB().values()));
-        return new ArrayList<>(databaseBooks.getBookDB().values());
-
+        return filterOutSoftDeletedBooks(new ArrayList<>(databaseBooks.getBookDB().values()));
     }
 
     public List<Book> filterOutSoftDeletedBooks(List<Book> listToFilter) {
