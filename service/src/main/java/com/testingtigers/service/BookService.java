@@ -7,9 +7,11 @@ import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.CreateBookDto;
 import com.testingtigers.domain.dtos.BookMapper;
 import com.testingtigers.domain.dtos.UpdateBookDto;
+import com.testingtigers.domain.exceptions.AuthorNotFound;
 import com.testingtigers.domain.repositories.AuthorRepository;
 import com.testingtigers.domain.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -78,6 +80,9 @@ public class BookService {
         return bookRepository.getBookByTitle(title);
     }
     public List<BookDto> returnBooksByAuthor(String firstName,String lastName) {
+        if(bookRepository.getBookByAuthor(firstName,lastName,authorRepository).size() == 0){
+            throw new AuthorNotFound(HttpStatus.BAD_REQUEST, "That author does not have any books in our database");
+        }
         return bookRepository.getBookByAuthor(firstName,lastName,authorRepository);
     }
 

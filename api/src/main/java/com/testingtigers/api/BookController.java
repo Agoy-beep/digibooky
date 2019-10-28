@@ -4,6 +4,8 @@ import com.testingtigers.domain.dtos.AuthorDto;
 import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.CreateBookDto;
 import com.testingtigers.domain.dtos.UpdateBookDto;
+import com.testingtigers.domain.exceptions.AuthorNotFound;
+import com.testingtigers.domain.exceptions.BookNotFound;
 import com.testingtigers.service.AuthorService;
 import com.testingtigers.service.BookService;
 import org.slf4j.Logger;
@@ -12,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.sound.midi.Soundbank;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -88,5 +92,15 @@ public class BookController {
         return bookService.returnBooksByAuthor(firstName, lastName);
     }
 
+    @ExceptionHandler(BookNotFound.class)
+    protected void bookNotFound(BookNotFound ex, HttpServletResponse response) throws IOException {
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
+        logger.warn("User looked for book that was unavailable.");
+    }
 
+    @ExceptionHandler(AuthorNotFound.class)
+    protected void authorNotFound(AuthorNotFound ex, HttpServletResponse response) throws IOException {
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
+        logger.warn("User looked for author that was not in the database.");
+    }
 }

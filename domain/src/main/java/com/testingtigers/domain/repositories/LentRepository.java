@@ -43,6 +43,7 @@ public class LentRepository {
         List<BookLentDto> result = new ArrayList<BookLentDto>();
 
         for(BookLent bookLent : databaseLents.values()) {
+            //TODO is this for debugging purposes?
             System.out.println(" XXXXXXXXXXXXXXXXXXXXXXXXX in getAllLentsAsListDto");
             result.add( lendMapper.convertBookLentToDto(bookLent));
         }

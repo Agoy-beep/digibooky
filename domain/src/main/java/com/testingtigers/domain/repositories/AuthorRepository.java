@@ -2,7 +2,9 @@ package com.testingtigers.domain.repositories;
 
 import com.testingtigers.domain.Author;
 import com.testingtigers.domain.Book;
+import com.testingtigers.domain.exceptions.AuthorNotFound;
 import com.testingtigers.domain.users.Member;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -31,7 +33,7 @@ public class AuthorRepository {
     public Author getById(String id){
         Author foundAuthor = authors.get(id);
         if(foundAuthor == null){
-            throw new IllegalArgumentException();
+            throw new AuthorNotFound(HttpStatus.BAD_REQUEST, "Author with ID:" + id + " is not in our database!");
         }
         else{
             return foundAuthor;
