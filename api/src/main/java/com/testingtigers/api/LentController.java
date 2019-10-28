@@ -2,6 +2,8 @@ package com.testingtigers.api;
 
 import com.testingtigers.domain.BookLent;
 import com.testingtigers.domain.dtos.BookDto;
+import com.testingtigers.domain.dtos.BookLentDto;
+import com.testingtigers.domain.dtos.LendMapper;
 import com.testingtigers.domain.dtos.UpdateBookDto;
 import com.testingtigers.service.LentService;
 import org.slf4j.Logger;
@@ -19,53 +21,64 @@ import java.util.List;
 public class LentController {
 
     private final LentService lentService;
+    private final LendMapper lendMapper = new LendMapper();
     public static Logger logger = LoggerFactory.getLogger(LentController.class);
 
     @Autowired
-    public LentController(LentService lentService) {
+    public LentController(LentService lentService ) {
+
         this.lentService = lentService;
     }
 
     @GetMapping(path = "", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     //usage localhost:8080\lent
-    public List<BookLent> getLentBooks() {
+    public List<BookLentDto> getLentBooks() {
         System.out.println("in de lent");
-        return lentService.getAllLentBooks();
+        return lentService.getAllLentBooksAsDto();
     }
-    /*
-    @GetMapping(path = "/author/", produces = "application/json")
-    @ResponseStatus(HttpStatus.FOUND)
-    public List<BookDto> getBookByAuthor(
-            //usage localhost:8080/books/author/?firstName=*&lastName=*
-            @RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName) {
-        return bookService.returnBooksByAuthor(firstName, lastName);
-    }
-     */
 
     @GetMapping(path = "/lentbook", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     //usage localhost:8080/lent/lentbook?bookID=20&memberID=20&startDateToLent=29/01/1973
-    public BookLent lentBook(
+    /*
+
+
+     */
+    public BookLentDto lentBook(
             @RequestParam("bookID") String bookID,
             @RequestParam("memberID") String memberID,
             @RequestParam("startDateToLent") String startDateToLentAsString) {
-        System.out.println("in de lentbook");
         if (bookID.isEmpty() || memberID.isEmpty() || startDateToLentAsString.isEmpty()) {
-            throw new IllegalArgumentException("Please provide arguments as  bookID memberID dd/MM/yyyy");
-        }
-        System.out.println("bookId :  "+bookID);
-        System.out.println("memberId :  "+memberID);
-        System.out.println("startDate :  "+startDateToLentAsString);
+            throw new IllegalArgumentException("Please provide arguments as  bookID memberID dd/MM/yyyy"); }
+
         Date startDateToLent;
         try {
             startDateToLent = new SimpleDateFormat("dd/MM/yyyy").parse(startDateToLentAsString);
         } catch (Exception ex) {
             throw new IllegalArgumentException("Use date format dd/MM/yyyy");
         }
-        return lentService.addBookToLent(bookID, memberID, startDateToLent );
+        BookLent bookToLent = lentService.addBookToLent(bookID, memberID, startDateToLent );
+        return lendMapper.convertBookLentToDto( bookToLent);
     }
+    /*
+       "isbn": "123-456-danny",
+        "uniqueId": "04ff6169-043d-45c2-8ad0-778b3bdd58f0",
+        "title": "DannyTitle",
+        "authorID": "8eaa7959-f5f5-4a99-abd3-996253659d93",
+        "summary": "DannySummery"
+
+         "id": "3016d6b6-86e1-4a07-b021-1f4b641c445e",
+        "emailAdress": "jesus@heaven.hell",
+        "firstName": null,
+        "lastName": "christ",
+        "city": "bethlehem",
+        "postalCode": null,
+        "streetName": null,
+        "streetNumber": null,
+        "inss": "Hidden for privacy reasons."
+
+     */
 
 
 }
