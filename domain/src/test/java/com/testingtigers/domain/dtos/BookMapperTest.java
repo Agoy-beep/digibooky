@@ -16,7 +16,7 @@ class BookMapperTest {
         bookDto.setSummary("Seum");
         bookDto.setTitle("Titles");
         bookDto.setIsbn("42");
-        bookDto.setAuthorID("5");
+        bookDto.setAuthorLastName("5");
         //WHEN
         Book book = bookMapper.mapToBook(bookDto);
         //THEN

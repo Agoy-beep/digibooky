@@ -52,11 +52,11 @@ class BookServiceTest {
 
         CreateBookDto createBookDto = new CreateBookDto();
         createBookDto.setIsbn("ISBN");
-        createBookDto.setAuthorID("A4");
+        createBookDto.setAuthorLastName("A4");
         createBookDto.setTitle("Title");
         createBookDto.setSummary("SUM");
         //WHEN
-        BookDto newBookDto = bookService.createBookDto(createBookDto);
+        BookDto newBookDto = bookService.registerBookAndReturnDto(createBookDto);
         //THEN
         assertThat(newBookDto.getTitle()).isEqualTo("Title");
         assertThat(newBookDto.getUniqueId()).isNotBlank();
