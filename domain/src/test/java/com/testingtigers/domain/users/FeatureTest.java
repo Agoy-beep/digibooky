@@ -10,7 +10,7 @@ class FeatureTest {
         String role = "ADMIN";
         //WHEN
         //THEN
-        Assertions.assertThat(Feature.getFeatures(role)).containsExactlyInAnyOrder(Feature.REGISTER_LIBRARIAN, Feature.VIEW_ALL_MEMBERS);
+        Assertions.assertThat(Feature.getFeatures(role)).containsExactlyInAnyOrder(Feature.REGISTER_LIBRARIAN, Feature.VIEW_ALL_MEMBERS, Feature.REGISTER_ADMIN);
 
     }
 
