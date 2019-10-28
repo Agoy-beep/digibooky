@@ -32,29 +32,66 @@ public class BookRepository {
         databaseBooks.getBookDB().remove(bookToDelete.getId(), bookToDelete);
     }
 
+    public BookDto deleteBookFromDatabaseByID(String IDToDelete) {
+        List<Book> bookList = new ArrayList<>(databaseBooks.getBookDB().values());
+        for (Book bookToExam : bookList) {
+            if (bookToExam.getId().equals(IDToDelete)) {
+                System.out.println("Happy path 1");
+                bookToExam.setSoftDelete(true);
+                System.out.println("Happy path 2");
+                return bookMapper.mapToDto(bookToExam);
+            }
+        }
+        throw new IllegalArgumentException("Book with ID "+IDToDelete+ " not found to soft-delete");
+    }
+
+    public BookDto undeleteBookFromDatabaseByID(String IDToUnDelete) {
+        List<Book> bookList = new ArrayList<>(databaseBooks.getBookDB().values());
+
+        for (Book bookToExam : bookList) {
+            if (bookToExam.getId().equals(IDToUnDelete)) {
+                bookToExam.setSoftDelete(false);
+                return bookMapper.mapToDto(bookToExam);
+            }
+        }
+        throw new IllegalArgumentException("Book with ID "+IDToUnDelete+ " not found to un -soft-delete");
+    }
+
     public Book getById(String id) {
         Book foundBook = databaseBooks.getBookDB().get(id);
         if (foundBook == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Book not found");
         } else {
+            if (foundBook.isSoftDeleted()) { throw new IllegalArgumentException("Book is soft-deleted"); }
             return foundBook;
         }
     }
 
     public List<Book> getAllBooks() {
-        return new ArrayList<>(databaseBooks.getBookDB().values());
+        return filterOutSoftDeletedBooks(new ArrayList<>(databaseBooks.getBookDB().values()));
+    }
+
+    public List<Book> filterOutSoftDeletedBooks(List<Book> listToFilter) {
+        List<Book> result = new ArrayList<>();
+        for (Book bookToExam : listToFilter) {
+            if (!bookToExam.isSoftDeleted()) {
+                result.add(bookToExam);
+            }
+        }
+        return result;
     }
 
     private List<Book> getBookDBAsList() {
-        return new ArrayList<Book>(databaseBooks.getBookDB().values());
+        // filter ok for soft delete
+        return filterOutSoftDeletedBooks(new ArrayList<Book>(databaseBooks.getBookDB().values()));
     }
 
     public List<BookDto> getBookByISBN(String ISBNToFind) {
-
+        // filter ok for soft delete
         // see https://stackoverflow.com/questions/10520566/regular-expression-wildcard-matching
         List<BookDto> resultingBooks = new ArrayList<>();
 
-        for (Book bookToExam : getBookDBAsList()) {
+        for (Book bookToExam : filterOutSoftDeletedBooks(getBookDBAsList())) {
             if (JWildcard.matches(ISBNToFind, bookToExam.getIsbn())) {
 
                 resultingBooks.add(bookMapper.mapToDto(bookToExam));
@@ -64,11 +101,10 @@ public class BookRepository {
     }
 
     public List<BookDto> getBookByTitle(String titleToFind) {
-        List<BookDto> resultingBooks = new ArrayList<>();
-
+        // filter ok for soft delete
         // see https://stackoverflow.com/questions/10520566/regular-expression-wildcard-matching
-
-        for (Book bookToExam : getBookDBAsList()) {
+        List<BookDto> resultingBooks = new ArrayList<>();
+        for (Book bookToExam : filterOutSoftDeletedBooks(getBookDBAsList())) {
             if (JWildcard.matches(titleToFind, bookToExam.getTitle())) {
                 resultingBooks.add(bookMapper.mapToDto(bookToExam));
             }
@@ -77,12 +113,13 @@ public class BookRepository {
     }
 
     public List<BookDto> getBookByAuthor(String firstNameToFind, String lastNameToFind, AuthorRepository authors) {
+        // filter ok for soft delete
         // see https://stackoverflow.com/questions/10520566/regular-expression-wildcard-matching
         List<BookDto> resultingBooks = new ArrayList<>();
 
         List<AuthorAndBookID> allAuthorsWithBookID = new ArrayList<>();
 
-        for (Book bookToExam : getBookDBAsList()) {
+        for (Book bookToExam : filterOutSoftDeletedBooks(getBookDBAsList())) {
             // only authors we have and that have a book will be added
             allAuthorsWithBookID.add(
                     new AuthorAndBookID(bookToExam.getAuthorID(), bookToExam.getId()));
@@ -100,5 +137,4 @@ public class BookRepository {
         }
         return resultingBooks;
     }
-
 }

@@ -44,6 +44,19 @@ public class BookController {
         return bookService.registerBookAndReturnDto(createdBookDto);
     }
 
+    @GetMapping(path = "/delete/{id}", produces = "application/json")
+    @ResponseStatus(HttpStatus.FOUND)
+    public BookDto deleteBookByID(@PathVariable("id") String id) {
+        //usage localhost:8080/books\ISBN\123-456-danny
+        return bookService.deleteBookByID(id);
+    }
+    @GetMapping(path = "/undelete/{id}", produces = "application/json")
+    @ResponseStatus(HttpStatus.FOUND)
+    public BookDto undeleteBookByID(@PathVariable("id") String id) {
+        //usage localhost:8080/books\ISBN\123-456-danny
+        return bookService.undeleteBookByID(id);
+    }
+
     @GetMapping(path = "/ISBN/{ISBN}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public List<BookDto> getBookByISBN(@PathVariable("ISBN") String ISBN) {
@@ -65,9 +78,11 @@ public class BookController {
     @GetMapping(path = "/author/", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public List<BookDto> getBookByAuthor(
+            //usage localhost:8080/books/author/?firstName=*&lastName=*
             @RequestParam("firstName") String firstName,
             @RequestParam("lastName") String lastName) {
         return bookService.returnBooksByAuthor(firstName, lastName);
     }
+
 
 }
