@@ -2,9 +2,9 @@ package com.testingtigers.domain.users;
 
 public interface Authenticatable {
 
-    public String getEmail();
+    String getEmail();
 
-    public String getPassword();
+    String getPassword();
 
-    public Role getRole();
+    Role getRole();
 }
