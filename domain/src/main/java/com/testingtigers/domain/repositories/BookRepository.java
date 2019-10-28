@@ -8,7 +8,10 @@ import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.BookMapper;
 import com.yevdo.jwildcard.JWildcard;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import com.testingtigers.domain.exceptions.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +43,7 @@ public class BookRepository {
                 return bookMapper.mapToDto(bookToExam);
             }
         }
-        throw new IllegalArgumentException("Book with ID "+IDToDelete+ " not found to soft-delete");
+        throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book with ID "+IDToDelete+ " not found to soft-delete");
     }
     /*
     "isbn": "123-456-danny",
@@ -59,15 +62,15 @@ public class BookRepository {
                 return bookMapper.mapToDto(bookToExam);
             }
         }
-        throw new IllegalArgumentException("Book with ID "+IDToUnDelete+ " not found to un -soft-delete");
+        throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book with ID "+IDToUnDelete+ " not found to un -soft-delete");
     }
 
     public Book getById(String id) {
         Book foundBook = databaseBooks.getBookDB().get(id);
         if (foundBook == null) {
-            throw new IllegalArgumentException("Book not found");
+            throw new BookNotFound(HttpStatus.BAD_REQUEST,"Book not found");
         } else {
-            if (foundBook.isSoftDeleted()) { throw new IllegalArgumentException("Book is soft-deleted"); }
+            if (foundBook.isSoftDeleted()) { throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book is soft-deleted"); }
             return foundBook;
         }
     }

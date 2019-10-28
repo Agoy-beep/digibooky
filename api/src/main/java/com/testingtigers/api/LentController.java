@@ -5,6 +5,8 @@ import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.BookLentDto;
 import com.testingtigers.domain.dtos.LendMapper;
 import com.testingtigers.domain.dtos.UpdateBookDto;
+import com.testingtigers.domain.exceptions.BookIsAlreadyLentOut;
+import com.testingtigers.domain.exceptions.LentBadFormError;
 import com.testingtigers.service.LentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -50,16 +54,29 @@ public class LentController {
             @RequestParam("memberID") String memberID,
             @RequestParam("startDateToLent") String startDateToLentAsString) {
         if (bookID.isEmpty() || memberID.isEmpty() || startDateToLentAsString.isEmpty()) {
-            throw new IllegalArgumentException("Please provide arguments as  bookID memberID dd/MM/yyyy"); }
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Please provide arguments as  bookID memberID dd/MM/yyyy"); }
 
         Date startDateToLent;
         try {
             startDateToLent = new SimpleDateFormat("dd/MM/yyyy").parse(startDateToLentAsString);
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Use date format dd/MM/yyyy");
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Use date format dd/MM/yyyy");
         }
         BookLent bookToLent = lentService.addBookToLent(bookID, memberID, startDateToLent );
         return lendMapper.convertBookLentToDto( bookToLent);
+    }
+
+    @ExceptionHandler(LentBadFormError.class)
+    protected void lentBadForm(LentBadFormError ex, HttpServletResponse response) throws IOException {
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
+        logger.warn("User made mistakes filling lent form.");
+    }
+
+    @ExceptionHandler(BookIsAlreadyLentOut.class)
+
+    protected void bookIsAlreadyLentOut(BookIsAlreadyLentOut ex, HttpServletResponse response) throws IOException{
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
+        logger.warn("User looked for book that was already lent out.");
     }
     /*
        "isbn": "123-456-danny",
