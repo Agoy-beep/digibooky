@@ -1,11 +1,11 @@
 package com.testingtigers.domain.dtos;
 
-public class CreateAdminDto {
+public class CreateAdminOrLibrarianDto {
     private String firstName;
     private String lastName;
     private String emailAddress;
 
-    public CreateAdminDto(String firstName, String lastName, String emailAddress) {
+    public CreateAdminOrLibrarianDto(String firstName, String lastName, String emailAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
