@@ -90,7 +90,6 @@ public class BookRepository {
         // filter ok for soft delete
         // see https://stackoverflow.com/questions/10520566/regular-expression-wildcard-matching
         List<BookDto> resultingBooks = new ArrayList<>();
-
         for (Book bookToExam : filterOutSoftDeletedBooks(getBookDBAsList())) {
             if (JWildcard.matches(ISBNToFind, bookToExam.getIsbn())) {
 
@@ -116,7 +115,6 @@ public class BookRepository {
         // filter ok for soft delete
         // see https://stackoverflow.com/questions/10520566/regular-expression-wildcard-matching
         List<BookDto> resultingBooks = new ArrayList<>();
-
         List<AuthorAndBookID> allAuthorsWithBookID = new ArrayList<>();
 
         for (Book bookToExam : filterOutSoftDeletedBooks(getBookDBAsList())) {
@@ -124,7 +122,6 @@ public class BookRepository {
             allAuthorsWithBookID.add(
                     new AuthorAndBookID(bookToExam.getAuthorID(), bookToExam.getId()));
         }
-
         for (AuthorAndBookID authorAndBookIDToExam : allAuthorsWithBookID) {
             Book bookToExam = getById(authorAndBookIDToExam.getBookID());
             Author authorToExam = authors.getById(authorAndBookIDToExam.getAuthorID());

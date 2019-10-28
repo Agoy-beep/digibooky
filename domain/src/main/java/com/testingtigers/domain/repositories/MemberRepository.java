@@ -26,4 +26,9 @@ public class MemberRepository {
         return members.values();
     }
 
+    public Member getMemberByID(String memberID) {
+        if (! members.containsKey(memberID)) {
+            throw new IllegalArgumentException("Member not found");   }
+        return members.get(memberID);
+    }
 }
