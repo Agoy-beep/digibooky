@@ -3,6 +3,7 @@ package com.testingtigers.service;
 import com.testingtigers.domain.Author;
 import com.testingtigers.domain.Book;
 import com.testingtigers.domain.BookLent;
+import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.BookLentDto;
 import com.testingtigers.domain.dtos.BookMapper;
 import com.testingtigers.domain.exceptions.BookIsAlreadyLentOut;
@@ -16,6 +17,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +26,8 @@ import java.util.List;
 public class LentService {
     private final LentRepository lentRepository;
     private final MemberRepository memberRepository;
-    private BookRepository bookRepository ;
+    private BookRepository bookRepository;
+    private final BookMapper bookMapper = new BookMapper();
 
     @Autowired
     public LentService(LentRepository lentRepository, MemberRepository memberRepository, BookRepository bookRepository) {
@@ -32,11 +36,12 @@ public class LentService {
         this.bookRepository = bookRepository;
     }
 
-
     public BookLent addBookToLent(String bookID, String lenderID, Date startDateToLent) {
+
         if ((bookID == null ) || (lenderID == null) || startDateToLent == null)
             throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Member or book or date is null. Please retry with both values");
         if (bookRepository.getById(bookID)==null) return null; // exception is catched in bookrepository
+
         if (memberRepository.getMemberByID(lenderID) == null) return null; // exception is catched memberrepository
         if (lentRepository.isBookIDInRepository(bookID))
             throw new BookIsAlreadyLentOut(HttpStatus.BAD_REQUEST, "Book is already lent out.");
@@ -57,6 +62,33 @@ public class LentService {
         return lentRepository.getAllLentsAsListDto();
     }
 
+    public List<BookDto> lentBooksByMember(String memberID) {
 
+        List<BookDto> bookDtos = new ArrayList<>();
 
+        List<BookLentDto> bookLentDtos = lentRepository.getLentBooksByMember(memberID);
+
+        if (bookLentDtos == null) return bookDtos;
+
+        for (BookLentDto bookLentDto : bookLentDtos) {
+            BookDto bookDto = bookMapper.mapToDto(bookRepository.getById(bookLentDto.getBookID()));
+            if (bookDto == null) continue;
+            bookDtos.add(bookDto);
+        }
+
+        return bookDtos;
+    }
+
+    public List<BookDto> getAllBooksOverdue(Date dateToCheck) {
+        List<BookLentDto> bookLentDtos = lentRepository.getAllBookLentsOverdue(dateToCheck);
+        List<BookDto> result = new ArrayList<>();
+
+        for (BookLentDto bookLentDto : bookLentDtos) {
+            Book book = bookRepository.getById(bookLentDto.getBookID());
+            if (book == null) continue;
+            result.add(bookMapper.mapToDto(book));
+        }
+
+        return result;
+    }
 }
