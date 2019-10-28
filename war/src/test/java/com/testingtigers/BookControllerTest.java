@@ -21,7 +21,7 @@ class BookControllerTest {
     @LocalServerPort
     private int port;
 
-    @Test
+   /*@Test
     public void addBook(){
         CreateBookDto createBookDto = new CreateBookDto()
                 .setIsbn("ISBN")
@@ -45,6 +45,6 @@ class BookControllerTest {
 
         assertThat(bookDto.getUniqueId()).isNotBlank();
         assertThat(bookDto.getIsbn()).isEqualTo(createBookDto.getIsbn());
-    }
+    }*/
 
 }
