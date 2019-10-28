@@ -1,6 +1,6 @@
 package com.testingtigers.api;
 
-import com.testingtigers.domain.dtos.CreateAdminDto;
+import com.testingtigers.domain.dtos.CreateAdminOrLibrarianDto;
 import com.testingtigers.domain.dtos.CreateMemberDto;
 import com.testingtigers.domain.dtos.MemberDto;
 import com.testingtigers.domain.exceptions.MemberNotFound;
@@ -44,8 +44,16 @@ public class MemberController {
     @PreAuthorize("hasAuthority('REGISTER_ADMIN')")
     @PostMapping(consumes = "application/json", path = "/admin")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerAdmin(@RequestBody CreateAdminDto adminToCreate) {
+    public void registerAdmin(@RequestBody CreateAdminOrLibrarianDto adminToCreate) {
         memberService.registerAdmin(adminToCreate);
+    }
+
+
+    @PreAuthorize("hasAuthority('REGISTER_LIBRARIAN')")
+    @PostMapping(consumes = "application/json", path = "/librarian")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerLibrarian(@RequestBody CreateAdminOrLibrarianDto librarianToCreate) {
+        memberService.registerLibrarian(librarianToCreate);
     }
 
     @ExceptionHandler(MemberNotFound.class)

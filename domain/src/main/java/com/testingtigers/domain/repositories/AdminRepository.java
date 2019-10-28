@@ -23,7 +23,7 @@ public class AdminRepository {
         return admins.values();
     }
 
-    public Admin adAdmin(Admin adminToAdd) {
+    public Admin addAdmin(Admin adminToAdd) {
         admins.put(adminToAdd.getId(), adminToAdd);
         return adminToAdd;
     }
