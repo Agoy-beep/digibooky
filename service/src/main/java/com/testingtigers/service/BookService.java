@@ -6,6 +6,7 @@ import com.testingtigers.domain.dtos.AuthorDto;
 import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.CreateBookDto;
 import com.testingtigers.domain.dtos.BookMapper;
+import com.testingtigers.domain.dtos.UpdateBookDto
 import com.testingtigers.domain.repositories.AuthorRepository;
 import com.testingtigers.domain.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,12 +54,20 @@ public class BookService {
         return bookMapper.mapToDto(bookRepository.getById(id));
     }
 
-    public BookDto createBookDto(CreateBookDto createBookDto){
+    public BookDto registerBookAndReturnDto(CreateBookDto createBookDto){
         Book newBook = bookMapper.mapToBook(createBookDto);
         bookRepository.addBookToDataBase(newBook);
         return bookMapper.mapToDto(newBook);
     }
 
+    public BookDto updateSpecificBook(String id, UpdateBookDto updateBookDto){
+        Book bookToUpdate = bookRepository.getById(id);
+        Book bookWithNewInfo = bookMapper.mapToBook(updateBookDto);
+        bookToUpdate.setAuthorID(bookWithNewInfo.getAuthorID());
+        bookToUpdate.setTitle(bookWithNewInfo.getTitle());
+        bookToUpdate.setSummary(bookWithNewInfo.getSummary());
+        return bookMapper.mapToDto(bookToUpdate);
+    }
     public BookRepository getBookRepository() { return bookRepository;}
 
     public List<BookDto> returnBooksByISBN(String isbn) {
