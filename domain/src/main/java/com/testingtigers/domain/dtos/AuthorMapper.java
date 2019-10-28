@@ -5,10 +5,6 @@ import com.testingtigers.domain.Book;
 
 public class AuthorMapper {
 
-    //TODO Does this still need to be here?
-    public Author mapToBoo(CreateAuthorDto createAuthorDto) {
-        return new Author(createAuthorDto.getFirstName(), createAuthorDto.getLastName());
-    }
     public  AuthorDto mapToDto(Author author) {
         AuthorDto authorDto = new AuthorDto();
         authorDto.setFirstName(author.getFirstName());
