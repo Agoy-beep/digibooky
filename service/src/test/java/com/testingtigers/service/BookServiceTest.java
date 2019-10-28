@@ -49,7 +49,6 @@ class BookServiceTest {
     @Test
     void createBook() {
         //GIVEN
-
         CreateBookDto createBookDto = new CreateBookDto();
         createBookDto.setIsbn("ISBN");
         createBookDto.setAuthorLastName("Willis");
