@@ -45,7 +45,6 @@ public class BookController {
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto createBook(@RequestBody CreateBookDto createdBookDto){
         AuthorDto authorDto = authorService.findSpecificAuthorIfNotFoundCreateNewAuthor(createdBookDto.getAuthorLastName());
-
         return bookService.registerBookAndReturnDto(createdBookDto, authorDto);
     }
 
