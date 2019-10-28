@@ -28,7 +28,6 @@ public class AuthorService {
         }
 
         //TODO MUST THIS BE BLANK?
-        //TODO Authorservice needed?
         Author newAuthor = new Author("BLANK", authorLastName);
         authorRepository.addAuthor(newAuthor);
         return authorMapper.mapToDto(newAuthor);
