@@ -6,7 +6,12 @@ public class BookMapper {
 
 
     public Book mapToBook(CreateBookDto createBookDto){
-        return new Book(createBookDto.getIsbn(), createBookDto.getTitle(), createBookDto.getAuthorID(), createBookDto.getSummary());
+        //TODO user Author Last Name to get the ID.
+        return new Book(createBookDto.getIsbn(), createBookDto.getTitle(), createBookDto.getAuthorLastName());
+    }
+
+    public Book mapToBook(UpdateBookDto updateBookDto){
+        return new Book(updateBookDto.getTitle(), updateBookDto.getAuthorID(), updateBookDto.getSummary());
     }
 
     public BookDto mapToDto(Book book){
@@ -16,8 +21,6 @@ public class BookMapper {
         bookDto.setTitle(book.getTitle());
         bookDto.setSummary(book.getSummary());
         bookDto.setUniqueId(book.getId());
-
         return bookDto;
-
     }
 }
