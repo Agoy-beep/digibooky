@@ -1,12 +1,10 @@
 package com.testingtigers.domain.dtos;
 
-import com.testingtigers.domain.Author;
-
 public class CreateBookDto {
 
     private String isbn;
     private String title;
-    private String authorID;
+    private String authorLastName;
     private String summary;
 
     public String getIsbn() {
@@ -17,8 +15,8 @@ public class CreateBookDto {
         return title;
     }
 
-    public String getAuthorID() {
-        return authorID;
+    public String getAuthorLastName() {
+        return authorLastName;
     }
 
     public String getSummary() {
@@ -35,8 +33,8 @@ public class CreateBookDto {
         return this;
     }
 
-    public CreateBookDto setAuthorID(String authorID) {
-        this.authorID = authorID;
+    public CreateBookDto setAuthorLastName(String authorLastName) {
+        this.authorLastName = authorLastName;
         return this;
     }
 

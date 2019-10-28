@@ -50,7 +50,7 @@ class BookServiceTest {
 
         CreateBookDto createBookDto = new CreateBookDto();
         createBookDto.setIsbn("ISBN");
-        createBookDto.setAuthorID("A4");
+        createBookDto.setAuthorLastName("A4");
         createBookDto.setTitle("Title");
         createBookDto.setSummary("SUM");
         //WHEN
