@@ -6,7 +6,7 @@ import com.testingtigers.domain.dtos.AuthorDto;
 import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.CreateBookDto;
 import com.testingtigers.domain.dtos.BookMapper;
-import com.testingtigers.domain.dtos.UpdateBookDto
+import com.testingtigers.domain.dtos.UpdateBookDto;
 import com.testingtigers.domain.repositories.AuthorRepository;
 import com.testingtigers.domain.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;

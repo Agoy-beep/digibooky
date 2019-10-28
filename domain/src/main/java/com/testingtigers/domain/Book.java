@@ -9,9 +9,9 @@ public class Book {
     private String isbn;
     private final String uniqueId;
 
-    private final String title;
-    private final String authorID;
-    private final String summary;
+    private String title;
+    private String authorID;
+    private String summary;
     private boolean softDeleted; // DO NOT MAKE FINAL
 
 
@@ -66,7 +66,8 @@ public class Book {
     public String toString() {
         // for test purposes
         return "ToString : " + getId() + " " + getIsbn() + " " + getTitle();
-      
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
