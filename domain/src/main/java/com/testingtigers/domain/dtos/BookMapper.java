@@ -1,13 +1,17 @@
 package com.testingtigers.domain.dtos;
 
 import com.testingtigers.domain.Book;
+import com.testingtigers.domain.BookBuilder;
+import com.testingtigers.domain.repositories.AuthorRepository;
 
 public class BookMapper {
 
 
-    public Book mapToBook(CreateBookDto createBookDto){
-        //TODO user Author Last Name to get the ID.
-        return new Book(createBookDto.getIsbn(), createBookDto.getTitle(), createBookDto.getAuthorLastName());
+
+    public Book mapToBook(CreateBookDto createBookDto, AuthorDto authorDto) {
+        BookBuilder newBookWithOutSummary = new BookBuilder();
+        return newBookWithOutSummary.createBookWithoutSummary(createBookDto.getIsbn(), createBookDto.getTitle(),
+                authorDto.getAuthorID());
     }
 
     public Book mapToBook(UpdateBookDto updateBookDto){

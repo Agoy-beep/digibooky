@@ -21,12 +21,11 @@ class BookControllerTest {
     @LocalServerPort
     private int port;
 
-   /*@Test
+   @Test
     public void addBook(){
         CreateBookDto createBookDto = new CreateBookDto()
                 .setIsbn("ISBN")
                 .setAuthorLastName("Pinker")
-                .setSummary("SUM")
                 .setTitle("Title");
 
         BookDto bookDto = RestAssured
@@ -45,6 +44,6 @@ class BookControllerTest {
 
         assertThat(bookDto.getUniqueId()).isNotBlank();
         assertThat(bookDto.getIsbn()).isEqualTo(createBookDto.getIsbn());
-    }*/
+    }
 
 }
