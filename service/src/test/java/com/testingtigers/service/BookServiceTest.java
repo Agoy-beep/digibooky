@@ -46,7 +46,7 @@ class BookServiceTest {
         assertThat(bookDto.getTitle()).isEqualTo(book.getTitle());
     }
 
-    @Test
+    /*@Test
     void createBook() {
         //GIVEN
 
@@ -62,5 +62,5 @@ class BookServiceTest {
         assertThat(newBookDto.getUniqueId()).isNotBlank();
         assertThat(newBookDto.getAuthorID()).isEqualTo("A4");
         assertThat(newBookDto.getIsbn()).isEqualTo("ISBN");
-    }
+    }*/
 }
