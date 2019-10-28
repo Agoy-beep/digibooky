@@ -50,9 +50,16 @@ public class BookController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto createBook(@RequestBody CreateBookDto createdBookDto){
+
+        //TODO CHECK THIS ^^
         logger.info("User attempts to create a book titled :" + createdBookDto.getTitle() +  ".");
         AuthorDto authorDto = authorService.findSpecificAuthorIfNotFoundCreateNewAuthor(createdBookDto.getAuthorLastName());
-        return bookService.registerBookAndReturnDto(createdBookDto, authorDto);
+        if(createdBookDto.getSummary().equals("BLANK")){
+            return bookService.registerBookAndReturnDto(createdBookDto, authorDto);
+        } else{
+
+            return bookService.registerBookAndReturnDto(createdBookDto);
+        }
     }
 
     @GetMapping(path = "/delete/{id}", produces = "application/json")

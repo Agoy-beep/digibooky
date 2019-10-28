@@ -62,6 +62,11 @@ public class BookService {
         throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book with id: " + id + " was not found.");
     }
 
+    public BookDto registerBookAndReturnDto(CreateBookDto createBookDto){
+        Book newBook = bookMapper.mapToBook(createBookDto);
+        bookRepository.addBookToDataBase(newBook);
+        return bookMapper.mapToDto(newBook);
+    }
     public BookDto registerBookAndReturnDto(CreateBookDto createBookDto, AuthorDto authorDto){
         Book newBook = bookMapper.mapToBook(createBookDto, authorDto);
         bookRepository.addBookToDataBase(newBook);
