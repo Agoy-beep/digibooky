@@ -41,6 +41,7 @@ public class LentRepository {
 
         for (BookLent bookLent : databaseLents.values()) {
             result.add(lendMapper.convertBookLentToDto(bookLent));
+
         }
 
         return result;

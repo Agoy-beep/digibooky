@@ -1,6 +1,8 @@
 package com.testingtigers.domain.repositories;
 
+import com.testingtigers.domain.exceptions.MemberNotFound;
 import com.testingtigers.domain.users.Member;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -32,7 +34,7 @@ public class MemberRepository {
 
     public Member getMemberByID(String memberID) {
         if (! members.containsKey(memberID)) {
-            throw new IllegalArgumentException("Member not found");   }
+            throw new MemberNotFound(HttpStatus.BAD_REQUEST,  "Member not found");   }
         return members.get(memberID);
     }
 }

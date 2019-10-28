@@ -6,7 +6,8 @@ import java.util.stream.Collectors;
 
 public enum Feature {
     VIEW_ALL_MEMBERS(Role.ADMIN),
-    REGISTER_LIBRARIAN(Role.ADMIN);
+    REGISTER_LIBRARIAN(Role.ADMIN),
+    REGISTER_ADMIN(Role.ADMIN);
 
     private Role[] authorizedRoles;
 

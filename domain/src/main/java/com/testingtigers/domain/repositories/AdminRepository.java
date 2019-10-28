@@ -22,4 +22,9 @@ public class AdminRepository {
     public Collection<Admin> getAll() {
         return admins.values();
     }
+
+    public Admin addAdmin(Admin adminToAdd) {
+        admins.put(adminToAdd.getId(), adminToAdd);
+        return adminToAdd;
+    }
 }
