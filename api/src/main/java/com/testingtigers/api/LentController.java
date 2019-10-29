@@ -25,13 +25,13 @@ import java.util.List;
 public class LentController {
 
     private final LentService lentService;
-    private final LendMapper lendMapper = new LendMapper();
+    private final LendMapper lendMapper;
     public static Logger logger = LoggerFactory.getLogger(LentController.class);
 
     @Autowired
-    public LentController(LentService lentService) {
-
+    public LentController(LentService lentService, LendMapper lendMapper) {
         this.lentService = lentService;
+        this.lendMapper = lendMapper;
     }
 
     @PreAuthorize("hasAuthority('GET_LENT_BOOKS')")
