@@ -6,7 +6,10 @@ import com.testingtigers.domain.repositories.AuthorRepository;
 
 public class BookMapper {
 
-
+    public Book mapToBook(CreateBookDto createBookDto){
+        return new Book(createBookDto.getIsbn(), createBookDto.getTitle(), createBookDto.getAuthorLastName(),
+                createBookDto.getSummary());
+    }
 
     public Book mapToBook(CreateBookDto createBookDto, AuthorDto authorDto) {
         BookBuilder newBookWithOutSummary = new BookBuilder();

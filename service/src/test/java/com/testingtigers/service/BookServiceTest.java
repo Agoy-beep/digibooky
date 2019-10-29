@@ -3,9 +3,11 @@ package com.testingtigers.service;
 import com.testingtigers.domain.Author;
 import com.testingtigers.domain.Book;
 import com.testingtigers.domain.dtos.*;
+import com.testingtigers.domain.exceptions.BookNotFound;
 import com.testingtigers.domain.repositories.AuthorRepository;
 import com.testingtigers.domain.repositories.BookDataBaseDummy;
 import com.testingtigers.domain.repositories.BookRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -44,6 +46,11 @@ class BookServiceTest {
         BookDto bookDto = bookMapper.mapToDto(bookRepository.getById(book.getId()));
         //THEN
         assertThat(bookDto.getTitle()).isEqualTo(book.getTitle());
+    }
+
+    @Test
+    void throwExceptionIfSpecificBookIsNotInDB(){
+        org.junit.jupiter.api.Assertions.assertThrows(BookNotFound.class, () -> bookMapper.mapToDto(bookRepository.getById("3")));
     }
 
     @Test

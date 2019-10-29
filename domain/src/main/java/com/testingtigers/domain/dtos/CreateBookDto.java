@@ -5,7 +5,7 @@ public class CreateBookDto {
     private String isbn;
     private String title;
     private String authorLastName;
-    //private String summary;
+    private String summary;
 
     public String getIsbn() {
         return isbn;
@@ -19,9 +19,9 @@ public class CreateBookDto {
         return authorLastName;
     }
 
-    /*public String getSummary() {
+    public String getSummary() {
         return summary;
-    }*/
+    }
 
     public CreateBookDto setIsbn(String isbn) {
         this.isbn = isbn;
@@ -38,8 +38,8 @@ public class CreateBookDto {
         return this;
     }
 
-    /*public CreateBookDto setSummary(String summary) {
+    public CreateBookDto setSummary(String summary) {
         this.summary = summary;
         return this;
-    }*/
+    }
 }

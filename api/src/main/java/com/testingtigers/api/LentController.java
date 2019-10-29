@@ -1,6 +1,7 @@
 package com.testingtigers.api;
 
 import com.testingtigers.domain.BookLent;
+import com.testingtigers.domain.TicketAfterReturn;
 import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.BookLentDto;
 import com.testingtigers.domain.dtos.LendMapper;
@@ -39,7 +40,7 @@ public class LentController {
     @ResponseStatus(HttpStatus.FOUND)
     //usage localhost:8080\lent
     public List<BookLentDto> getLentBooks() {
-        System.out.println("in de lent");
+        logger.info("User attempted to get a list of all lent books.");
         return lentService.getAllLentBooksAsDto();
     }
 
@@ -53,8 +54,8 @@ public class LentController {
             @RequestParam("startDateToLent") String startDateToLentAsString) {
         if (bookID.isEmpty() || memberID.isEmpty() || startDateToLentAsString.isEmpty()) {
 
-            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Please provide arguments as  bookID memberID dd/MM/yyyy"); }
-
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Please provide arguments as  bookID memberID dd/MM/yyyy");
+        }
 
         Date startDateToLent;
         try {
@@ -63,6 +64,7 @@ public class LentController {
             throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Use date format dd/MM/yyyy");
         }
         BookLent bookToLent = lentService.addBookToLent(bookID, memberID, startDateToLent);
+        logger.info("Member with ID: " + memberID +  "loans out book with ID: " + bookID + ".");
         return lendMapper.convertBookLentToDto(bookToLent);
     }
 
@@ -87,10 +89,24 @@ public class LentController {
         } catch (Exception ex) {
             throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Use date format dd/MM/yyyy");
         }
-
+        logger.info("User attempted to retrieve list of lent out books.");
         return lentService.getAllBooksOverdue(dateToCheck);
     }
 
+    @GetMapping(path = "/lentreturn", produces = "application/json")
+    @ResponseStatus(HttpStatus.FOUND)
+    // usage
+    public TicketAfterReturn lentReturn(
+            @RequestParam("lentID") String lentID,
+            @RequestParam("dateToCheck") String dateToCheckAsString) {
+        Date dateToCheck;
+        try {
+            dateToCheck = new SimpleDateFormat("dd/MM/yyyy").parse(dateToCheckAsString);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Use date format dd/MM/yyyy");
+        }
+        return lentService.returnLentBook(lentID, dateToCheck);
+    }
 
     @ExceptionHandler(LentBadFormError.class)
     protected void lentBadForm(LentBadFormError ex, HttpServletResponse response) throws IOException {
@@ -100,19 +116,21 @@ public class LentController {
 
     @ExceptionHandler(BookIsAlreadyLentOut.class)
 
-    protected void bookIsAlreadyLentOut(BookIsAlreadyLentOut ex, HttpServletResponse response) throws IOException{
+    protected void bookIsAlreadyLentOut(BookIsAlreadyLentOut ex, HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
         logger.warn("User looked for book that was already lent out.");
     }
 
     /*
-   "isbn": "123-456-danny",
-        "uniqueId": "b4c4414e-6450-44cc-9cc6-1f1b3c412f38",
+    {
+        "isbn": "123-456-danny",
+        "uniqueId": "7f83d3e9-35c8-4ffb-8dae-88f13ff153d2",
         "title": "DannyTitle",
-        "authorID": "8c7be2ea-72f4-4543-b613-c9fa27306ff9",
+        "authorID": "59920086-79f4-4edd-99a1-e9760f634160",
         "summary": "DannySummery"
-
-       "id": "10d3baf7-8447-42bd-b60d-bae76e2f2d59",
+    }
+    {
+        "id": "e841f6c7-8374-4fb3-9eb4-30d21a624d08",
         "emailAdress": "jesus@heaven.hell",
         "firstName": null,
         "lastName": "christ",
@@ -121,15 +139,15 @@ public class LentController {
         "streetName": null,
         "streetNumber": null,
         "inss": "Hidden for privacy reasons."
-
-        {
-    "bookID": "b4c4414e-6450-44cc-9cc6-1f1b3c412f38",
-    "lendeeID": "10d3baf7-8447-42bd-b60d-bae76e2f2d59",
-    "lentStartDate": "2019-10-27T23:00:00.000+0000",
-    "lentEndDate": "2019-11-17T23:00:00.000+0000",
-    "lentID": "23d6d5cc-37aa-4cfe-a9cf-d21c3424c0e7"
+    }
+    {
+    "bookID": "7f83d3e9-35c8-4ffb-8dae-88f13ff153d2",
+    "lendeeID": "e841f6c7-8374-4fb3-9eb4-30d21a624d08",
+    "lentStartDate": "2019-10-28T23:00:00.000+0000",
+    "lentEndDate": "2019-11-18T23:00:00.000+0000",
+    "lentID": "6af748c4-3b58-4ac3-8fed-cb88c89ee445"
 }
 
-*/
+    */
 }
 

@@ -104,7 +104,12 @@ public class BookRepository {
                 resultingBooks.add(bookMapper.mapToDto(bookToExam));
             }
         }
-        return resultingBooks;
+        if(resultingBooks.size() != 0){
+            return resultingBooks;
+        }
+        else{
+            throw new BookNotFound(HttpStatus.BAD_REQUEST, "No books with ISBN: " + ISBNToFind + " in the database!");
+        }
     }
 
     public List<BookDto> getBookByTitle(String titleToFind) {
@@ -116,7 +121,12 @@ public class BookRepository {
                 resultingBooks.add(bookMapper.mapToDto(bookToExam));
             }
         }
-        return resultingBooks;
+        if(resultingBooks.size() != 0){
+            return resultingBooks;
+        }
+        else{
+            throw new BookNotFound(HttpStatus.BAD_REQUEST, "No books with title: " + titleToFind + " in the database!");
+        }
     }
 
     public List<BookDto> getBookByAuthor(String firstNameToFind, String lastNameToFind, AuthorRepository authors) {
