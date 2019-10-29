@@ -133,7 +133,7 @@ public class BookController {
     @ExceptionHandler(EmptyFields.class)
     protected void fieldsAreEmpty(EmptyFields ex, HttpServletResponse response) throws IOException{
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
-        logger.warn("User did not provide input for all the relevant fields. Message: " + ex.getMessage());
+        logger.warn("User did not provide input for all the relevant fields. Message:" + ex.getMessage());
     }
 
 }
