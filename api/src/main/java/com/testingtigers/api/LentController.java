@@ -1,6 +1,7 @@
 package com.testingtigers.api;
 
 import com.testingtigers.domain.BookLent;
+import com.testingtigers.domain.TicketAfterReturn;
 import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.BookLentDto;
 import com.testingtigers.domain.dtos.LendMapper;
@@ -52,8 +53,8 @@ public class LentController {
             @RequestParam("startDateToLent") String startDateToLentAsString) {
         if (bookID.isEmpty() || memberID.isEmpty() || startDateToLentAsString.isEmpty()) {
 
-            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Please provide arguments as  bookID memberID dd/MM/yyyy"); }
-
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Please provide arguments as  bookID memberID dd/MM/yyyy");
+        }
 
         Date startDateToLent;
         try {
@@ -89,6 +90,20 @@ public class LentController {
         return lentService.getAllBooksOverdue(dateToCheck);
     }
 
+    @GetMapping(path = "/lentreturn", produces = "application/json")
+    @ResponseStatus(HttpStatus.FOUND)
+    // usage
+    public TicketAfterReturn lentReturn(
+            @RequestParam("bookID") String bookID,
+            @RequestParam("dateToCheck") String dateToCheckAsString) {
+        Date dateToCheck;
+        try {
+            dateToCheck = new SimpleDateFormat("dd/MM/yyyy").parse(dateToCheckAsString);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Use date format dd/MM/yyyy");
+        }
+        return lentService.returnLentBook(bookID, dateToCheck);
+    }
 
     @ExceptionHandler(LentBadFormError.class)
     protected void lentBadForm(LentBadFormError ex, HttpServletResponse response) throws IOException {
@@ -98,19 +113,22 @@ public class LentController {
 
     @ExceptionHandler(BookIsAlreadyLentOut.class)
 
-    protected void bookIsAlreadyLentOut(BookIsAlreadyLentOut ex, HttpServletResponse response) throws IOException{
+    protected void bookIsAlreadyLentOut(BookIsAlreadyLentOut ex, HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
         logger.warn("User looked for book that was already lent out.");
     }
 
     /*
-   "isbn": "123-456-danny",
-        "uniqueId": "b4c4414e-6450-44cc-9cc6-1f1b3c412f38",
+{
+        "isbn": "123-456-danny",
+        "uniqueId": "845e5f64-f7e7-424a-a8e7-676897187b1b",
         "title": "DannyTitle",
-        "authorID": "8c7be2ea-72f4-4543-b613-c9fa27306ff9",
+        "authorID": "71591420-6072-49ba-acb0-6468d400d049",
         "summary": "DannySummery"
+    }
 
-       "id": "10d3baf7-8447-42bd-b60d-bae76e2f2d59",
+    {
+        "id": "c555acdc-e82e-422f-81af-eb5645de268d",
         "emailAdress": "jesus@heaven.hell",
         "firstName": null,
         "lastName": "christ",
@@ -119,15 +137,15 @@ public class LentController {
         "streetName": null,
         "streetNumber": null,
         "inss": "Hidden for privacy reasons."
+    }
 
-        {
-    "bookID": "b4c4414e-6450-44cc-9cc6-1f1b3c412f38",
-    "lendeeID": "10d3baf7-8447-42bd-b60d-bae76e2f2d59",
-    "lentStartDate": "2019-10-27T23:00:00.000+0000",
-    "lentEndDate": "2019-11-17T23:00:00.000+0000",
-    "lentID": "23d6d5cc-37aa-4cfe-a9cf-d21c3424c0e7"
-}
+     "bookID": "845e5f64-f7e7-424a-a8e7-676897187b1b",
+        "lendeeID": "c555acdc-e82e-422f-81af-eb5645de268d",
+        "lentStartDate": "2019-10-28T23:00:00.000+0000",
+        "lentEndDate": "2019-11-18T23:00:00.000+0000",
+        "lentID": "48d22bc9-c127-497d-9dc7-8c43b2fb0939"
 
-*/
+
+     */
 }
 

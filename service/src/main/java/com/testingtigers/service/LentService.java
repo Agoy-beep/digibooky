@@ -1,14 +1,13 @@
 package com.testingtigers.service;
 
-import com.testingtigers.domain.Author;
 import com.testingtigers.domain.Book;
 import com.testingtigers.domain.BookLent;
+import com.testingtigers.domain.TicketAfterReturn;
 import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.BookLentDto;
 import com.testingtigers.domain.dtos.BookMapper;
 import com.testingtigers.domain.exceptions.BookIsAlreadyLentOut;
 import com.testingtigers.domain.exceptions.LentBadFormError;
-import com.testingtigers.domain.repositories.AuthorRepository;
 import com.testingtigers.domain.repositories.BookRepository;
 import com.testingtigers.domain.repositories.LentRepository;
 import com.testingtigers.domain.repositories.MemberRepository;
@@ -16,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,9 +37,9 @@ public class LentService {
 
     public BookLent addBookToLent(String bookID, String lenderID, Date startDateToLent) {
 
-        if ((bookID == null ) || (lenderID == null) || startDateToLent == null)
-            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Member or book or date is null. Please retry with both values");
-        if (bookRepository.getById(bookID)==null) return null; // exception is catched in bookrepository
+        if ((StringUtils.isEmpty( bookID)) || (StringUtils.isEmpty(lenderID) || startDateToLent == null))
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Member or book or date is null or empty. Please retry with both values");
+        if (bookRepository.getById(bookID) == null) return null; // exception is catched in bookrepository
 
         if (memberRepository.getMemberByID(lenderID) == null) return null; // exception is catched memberrepository
         if (lentRepository.isBookIDInRepository(bookID))
@@ -63,6 +62,10 @@ public class LentService {
     }
 
     public List<BookDto> lentBooksByMember(String memberID) {
+
+        if (StringUtils.isEmpty(memberID)) {
+            throw new BookIsAlreadyLentOut(HttpStatus.BAD_REQUEST, "No sush member");
+        }
 
         List<BookDto> bookDtos = new ArrayList<>();
 
@@ -90,5 +93,33 @@ public class LentService {
         }
 
         return result;
+    }
+
+    public TicketAfterReturn returnLentBook(String bookID, Date returnDate) {
+        if (returnDate == null) {
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "returnDate is null. Please retry with a valid returnDate");
+        }
+        if (StringUtils.isEmpty(bookID)) {
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "bookID is null. Please retry with a bookID");
+        }
+        if (!lentRepository.isBookIDInRepository(bookID)) {
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "bookID is not in rented list. Please retry with a different bookID");
+        }
+
+        BookLentDto bookLentDto = lentRepository.getLentDtoByBookID(bookID);
+        if (bookLentDto == null) {
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Something went wrong with bookID");
+        }
+        TicketAfterReturn resultTicket =
+                new TicketAfterReturn(
+                        returnDate,
+                        bookLentDto.getLentStartDate(),
+                        bookLentDto.getLentEndDate(),
+                        bookLentDto.getBookID(),
+                        bookLentDto.getLendeeID(),
+                        bookLentDto.getLentID()
+                );
+        lentRepository.deleteLentByLentID(bookLentDto.getLentID(),returnDate);
+        return resultTicket;
     }
 }

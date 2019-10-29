@@ -8,13 +8,14 @@ import com.testingtigers.domain.dtos.LendMapper;
 import com.testingtigers.domain.users.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
 @Component
 public class LentRepository {
 
-    private final HashMap<String, BookLent> databaseLents;
+    private HashMap<String, BookLent> databaseLents; // do not make final
     private final LendMapper lendMapper = new LendMapper();
 
     @Autowired
@@ -30,6 +31,7 @@ public class LentRepository {
     }
 
     public boolean isBookIDInRepository(String bookId) {
+        if (StringUtils.isEmpty(bookId)) return false;
         for (BookLent bookLent : getAllLentsAsList()) {
             if (bookLent.getBookID().equals(bookId)) return true;
         }
@@ -49,6 +51,7 @@ public class LentRepository {
 
     //@Bean
     public BookLent addBookToLent(Book bookToAdd, Member memberToAdd, Date startDate) {
+        if ((bookToAdd == null) || (memberToAdd==null) || (startDate==null)) return null;
         Date endDate;
         Calendar myCalender = Calendar.getInstance();
         myCalender.setTime(startDate);
@@ -61,6 +64,7 @@ public class LentRepository {
     }
 
     public List<BookLentDto> getLentBooksByMember(String memberID) {
+        if (StringUtils.isEmpty(memberID)) return null;
         List<BookLentDto> result = new ArrayList<BookLentDto>();
 
         for (BookLent bookLent : databaseLents.values()) {
@@ -73,6 +77,7 @@ public class LentRepository {
     }
 
     public List<BookLentDto> getAllBookLentsOverdue(Date dateToCheck) {
+        if (dateToCheck == null) return null;
         List<BookLentDto> result = new ArrayList<>();
         for (BookLent bookLent : databaseLents.values()) {
             if (dateToCheck.after(bookLent.getLentEndDate())) {
@@ -80,6 +85,45 @@ public class LentRepository {
             }
         }
         return result;
+    }
+
+    public BookLentDto getLentDtoByBookID(String bookID) {
+        if (StringUtils.isEmpty(bookID)) return null;
+
+        for (BookLentDto bookLentDto : getAllLentsAsListDto()) {
+            if (bookLentDto.getBookID().equals( bookID)) {
+                return bookLentDto;
+            }
+        }
+        return null;
+    }
+    public BookLent getLentByBookID(String bookID) {
+        if ( StringUtils.isEmpty(bookID)) return null;
+
+        for (BookLent bookLent : getAllLentsAsList()) {
+            if (bookLent.getBookID().equals( bookID)) {
+                return bookLent;
+            }
+        }
+        return null;
+    }
+
+
+    public void deleteLentByLentID(String lentID,Date returnDate) {
+        if (StringUtils.isEmpty( lentID)) return;
+
+
+
+
+        HashMap<String, BookLent> databaseLentsCopy = new HashMap<String, BookLent>();
+        // Getting an iterator
+
+
+
+
+
+
+
     }
 }
 
