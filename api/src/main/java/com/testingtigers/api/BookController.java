@@ -51,6 +51,12 @@ public class BookController {
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto createBook(@RequestBody CreateBookDto createdBookDto){
         logger.info("User attempts to create a book titled: " + createdBookDto.getTitle() +  ".");
+
+        if(createdBookDto.getTitle().isBlank() || createdBookDto.getIsbn().isBlank() ||
+                createdBookDto.getAuthorLastName().isBlank()){
+            throw new
+        }
+
         AuthorDto authorDto = authorService.findSpecificAuthorIfNotFoundCreateNewAuthor(createdBookDto.getAuthorLastName());
         if(createdBookDto.getSummary() == null){
             return bookService.registerBookAndReturnDto(createdBookDto, authorDto);
@@ -117,4 +123,6 @@ public class BookController {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
         logger.warn("User looked for author that was not in the database.");
     }
+
+
 }
