@@ -59,7 +59,7 @@ public class BookService {
                 return bookMapper.mapToDto(bookRepository.getById(id));
             }
         }
-        throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book with id: " + id + " was not found.");
+        throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book with id: " + "\"" + id +"\"" + " was not found.");
     }
 
     public BookDto registerBookAndReturnDto(CreateBookDto createBookDto){
@@ -84,7 +84,7 @@ public class BookService {
                 return bookMapper.mapToDto(bookToUpdate);
             }
         }
-        throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book with id: " + id + " was not found.");
+        throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book with id: " + "\"" + id +"\"" + " was not found.");
     }
     public BookRepository getBookRepository() { return bookRepository;}
 

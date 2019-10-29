@@ -49,7 +49,7 @@ class BookControllerTest {
     }
 
     @Test
-    public void givenInputFieldIsEmptyThenThrowExeption(){
+    public void givenInputFieldIsEmptyThenThrowException(){
         CreateBookDto createBookDto = new CreateBookDto()
                 .setIsbn("")
                 .setAuthorLastName("Pinker")
