@@ -2,6 +2,8 @@ package com.testingtigers;
 
 import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.CreateBookDto;
+import com.testingtigers.domain.exceptions.EmptyFields;
+import org.junit.jupiter.api.Assertions;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,4 +52,24 @@ class BookControllerTest {
         assertThat(bookDto.getIsbn()).isEqualTo(createBookDto.getIsbn());
     }
 
+    @Test
+    public void givenInputFieldIsEmptyThenThrowException(){
+        CreateBookDto createBookDto = new CreateBookDto()
+                .setIsbn("")
+                .setAuthorLastName("Pinker")
+                .setTitle("Title");
+
+        RestAssured
+                .given()
+                .body(createBookDto)
+                .accept(JSON)
+                .contentType(JSON)
+                .when()
+                .port(port)
+                .post("/books")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+
+    }
 }

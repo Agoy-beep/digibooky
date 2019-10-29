@@ -6,6 +6,7 @@ import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.BookLentDto;
 import com.testingtigers.domain.dtos.LendMapper;
 import com.testingtigers.domain.exceptions.BookIsAlreadyLentOut;
+import com.testingtigers.domain.exceptions.EmptyFields;
 import com.testingtigers.domain.exceptions.LentBadFormError;
 import com.testingtigers.service.LentService;
 import org.slf4j.Logger;
@@ -64,7 +65,7 @@ public class LentController {
             throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Use date format dd/MM/yyyy");
         }
         BookLent bookToLent = lentService.addBookToLent(bookID, memberID, startDateToLent);
-        logger.info("Member with ID: " + memberID +  "loans out book with ID: " + bookID + ".");
+        logger.info("Member with ID: " + "\"" + memberID + "\"" + "loans out book with ID: " + "\"" + bookID + "\"" + ".");
         return lendMapper.convertBookLentToDto(bookToLent);
     }
 
@@ -72,7 +73,7 @@ public class LentController {
     @GetMapping(path = "/lentbymember/{memberID}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public List<BookDto> lentBooksByMember(@PathVariable("memberID") String memberID) {
-        if (memberID.isEmpty()) throw new IllegalArgumentException("Parameter memberID missing");
+        if (memberID.isEmpty()) throw new EmptyFields(HttpStatus.BAD_REQUEST, "Parameter memberID missing");
 
         return lentService.lentBooksByMember(memberID);
     }
@@ -89,7 +90,7 @@ public class LentController {
         } catch (Exception ex) {
             throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Use date format dd/MM/yyyy");
         }
-        logger.info("User attempted to retrieve list of lent out books.");
+        logger.info("User looked for list of lent out books.");
         return lentService.getAllBooksOverdue(dateToCheck);
     }
 
@@ -103,7 +104,7 @@ public class LentController {
         try {
             dateToCheck = new SimpleDateFormat("dd/MM/yyyy").parse(dateToCheckAsString);
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Use date format dd/MM/yyyy");
+            throw new EmptyFields(HttpStatus.BAD_REQUEST, "Use date format dd/MM/yyyy");
         }
         return lentService.returnLentBook(lentID, dateToCheck);
     }
@@ -111,14 +112,19 @@ public class LentController {
     @ExceptionHandler(LentBadFormError.class)
     protected void lentBadForm(LentBadFormError ex, HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
-        logger.warn("User made mistakes filling lent form.");
+        logger.warn("User made mistakes filling lent form. Message: " + ex.getMessage());
     }
 
     @ExceptionHandler(BookIsAlreadyLentOut.class)
-
     protected void bookIsAlreadyLentOut(BookIsAlreadyLentOut ex, HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
-        logger.warn("User looked for book that was already lent out.");
+        logger.warn("User looked for book that was already lent out. Message: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(EmptyFields.class)
+    protected void fieldsAreEmpty(EmptyFields ex, HttpServletResponse response) throws IOException{
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
+        logger.warn("User did not provide input for all the relevant fields. Message: " + ex.getMessage());
     }
 
     /*
