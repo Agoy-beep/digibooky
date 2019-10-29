@@ -1,7 +1,9 @@
 package com.testingtigers.domain.dtos;
 
 import com.testingtigers.domain.users.Member;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MemberMapper {
 
     public MemberDto convertMemberToDto(Member member) {

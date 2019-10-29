@@ -12,6 +12,22 @@ public class MemberDto {
     private String streetName;
     private String streetNumber;
 
+    @Override
+    public String toString() {
+        return  "INSS='" + INSS + '\'' +
+                ", id='" + id + '\'' +
+                ", emailAdress='" + emailAdress + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", city='" + city + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", streetName='" + streetName + '\'' +
+                ", streetNumber='" + streetNumber + '\'';
+
+    }
+
+    
+
     public MemberDto() {
     }
 

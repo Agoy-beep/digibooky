@@ -1,23 +1,21 @@
 package com.testingtigers.api;
 
-import com.testingtigers.domain.dtos.AuthorDto;
-import com.testingtigers.domain.dtos.BookDto;
-import com.testingtigers.domain.dtos.CreateBookDto;
-import com.testingtigers.domain.dtos.UpdateBookDto;
+import com.testingtigers.domain.dtos.*;
 import com.testingtigers.domain.exceptions.AuthorNotFound;
 import com.testingtigers.domain.exceptions.BookNotFound;
 import com.testingtigers.domain.exceptions.EmptyFields;
 import com.testingtigers.service.AuthorService;
+import com.testingtigers.service.BookDetailsWithRentalInfoService;
 import com.testingtigers.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,12 +25,14 @@ public class BookController {
 
     private final BookService bookService;
     private final AuthorService authorService;
+    private final BookDetailsWithRentalInfoService bookDetailsWithRentalInfoService;
     public static Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
-    public BookController(BookService bookService, AuthorService authorService) {
+    public BookController(BookService bookService, AuthorService authorService, BookDetailsWithRentalInfoService bookDetailsWithRentalInfoService) {
         this.bookService = bookService;
         this.authorService = authorService;
+        this.bookDetailsWithRentalInfoService = bookDetailsWithRentalInfoService;
     }
 
     @GetMapping(produces = "application/json")
@@ -44,11 +44,13 @@ public class BookController {
 
     @GetMapping(path = "/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
-    public BookDto getSpecificBook(@PathVariable("id") String id) {
-        logger.info("A book was queried with ID: " + "\"" + id +"\"" + ".");
-        return bookService.returnSpecificBookBasedOnId(id);
+    public BookDetailsWithLentInfoDto getSpecificBook(@PathVariable("id") String id) {
+        logger.info("A book was queried with ID:" + "\"" + id +"\"" + ".");
+
+        return bookDetailsWithRentalInfoService.fillInAllDtosByBookID(id);
     }
 
+    @PreAuthorize("hasAuthority('CREATE_BOOK')")
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto createBook(@RequestBody CreateBookDto createdBookDto){
@@ -68,6 +70,7 @@ public class BookController {
         }
     }
 
+    @PreAuthorize("hasAuthority('DELETE_BOOK')")
     @GetMapping(path = "/delete/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public BookDto deleteBookByID(@PathVariable("id") String id) {
@@ -75,6 +78,8 @@ public class BookController {
         //usage localhost:8080/books\ISBN\123-456-danny
         return bookService.deleteBookByID(id);
     }
+
+    @PreAuthorize("hasAuthority('UNDELETE_BOOK')")
     @GetMapping(path = "/undelete/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public BookDto undeleteBookByID(@PathVariable("id") String id) {
@@ -97,6 +102,8 @@ public class BookController {
         logger.info("User looked for books with title: " + "\"" +title + "\"" + ".");
         return bookService.returnBooksByTitle(title);
     }
+
+    @PreAuthorize("hasAuthority('UPDATE_BOOK')")
     @PutMapping(params = "/{id}", consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public BookDto updateBook(@RequestParam ("id") String id, @RequestBody UpdateBookDto updateBookDto){

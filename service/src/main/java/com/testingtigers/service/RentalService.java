@@ -4,12 +4,12 @@ import com.testingtigers.domain.Book;
 import com.testingtigers.domain.BookLent;
 import com.testingtigers.domain.TicketAfterReturn;
 import com.testingtigers.domain.dtos.BookDto;
-import com.testingtigers.domain.dtos.BookLentDto;
+import com.testingtigers.domain.dtos.BookRentalDto;
 import com.testingtigers.domain.dtos.BookMapper;
 import com.testingtigers.domain.exceptions.BookIsAlreadyLentOut;
 import com.testingtigers.domain.exceptions.LentBadFormError;
 import com.testingtigers.domain.repositories.BookRepository;
-import com.testingtigers.domain.repositories.LentRepository;
+import com.testingtigers.domain.repositories.RentalRepository;
 import com.testingtigers.domain.repositories.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,15 +22,15 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class LentService {
-    private final LentRepository lentRepository;
+public class RentalService {
+    private final RentalRepository rentalRepository;
     private final MemberRepository memberRepository;
     private BookRepository bookRepository;
     private final BookMapper bookMapper = new BookMapper();
 
     @Autowired
-    public LentService(LentRepository lentRepository, MemberRepository memberRepository, BookRepository bookRepository) {
-        this.lentRepository = lentRepository;
+    public RentalService(RentalRepository rentalRepository, MemberRepository memberRepository, BookRepository bookRepository) {
+        this.rentalRepository = rentalRepository;
         this.memberRepository = memberRepository;
         this.bookRepository = bookRepository;
     }
@@ -42,10 +42,10 @@ public class LentService {
         if (bookRepository.getById(bookID) == null) return null; // exception is catched in bookrepository
 
         if (memberRepository.getMemberByID(lenderID) == null) return null; // exception is catched memberrepository
-        if (lentRepository.isBookIDInRepository(bookID))
+        if (rentalRepository.isBookIDInRepository(bookID))
             throw new BookIsAlreadyLentOut(HttpStatus.BAD_REQUEST, "Book is already lent out.");
 
-        return lentRepository.
+        return rentalRepository.
                 addBookToLent(bookRepository.getById(bookID),
                         memberRepository.getMemberByID(lenderID),
                         startDateToLent);
@@ -53,12 +53,12 @@ public class LentService {
 
     @Bean
     public List<BookLent> getAllLentBooks() {
-        return lentRepository.getAllLentsAsList();
+        return rentalRepository.getAllLentsAsList();
     }
 
     @Bean
-    public List<BookLentDto> getAllLentBooksAsDto() {
-        return lentRepository.getAllLentsAsListDto();
+    public List<BookRentalDto> getAllLentBooksAsDto() {
+        return rentalRepository.getAllLentsAsListDto();
     }
 
     public List<BookDto> lentBooksByMember(String memberID) {
@@ -69,12 +69,12 @@ public class LentService {
 
         List<BookDto> bookDtos = new ArrayList<>();
 
-        List<BookLentDto> bookLentDtos = lentRepository.getLentBooksByMember(memberID);
+        List<BookRentalDto> bookRentalDtos = rentalRepository.getLentBooksByMember(memberID);
 
-        if (bookLentDtos == null) return bookDtos;
+        if (bookRentalDtos == null) return bookDtos;
 
-        for (BookLentDto bookLentDto : bookLentDtos) {
-            BookDto bookDto = bookMapper.mapToDto(bookRepository.getById(bookLentDto.getBookID()));
+        for (BookRentalDto bookRentalDto : bookRentalDtos) {
+            BookDto bookDto = bookMapper.mapToDto(bookRepository.getById(bookRentalDto.getBookID()));
             if (bookDto == null) continue;
             bookDtos.add(bookDto);
         }
@@ -83,11 +83,11 @@ public class LentService {
     }
 
     public List<BookDto> getAllBooksOverdue(Date dateToCheck) {
-        List<BookLentDto> bookLentDtos = lentRepository.getAllBookLentsOverdue(dateToCheck);
+        List<BookRentalDto> bookRentalDtos = rentalRepository.getAllBookLentsOverdue(dateToCheck);
         List<BookDto> result = new ArrayList<>();
 
-        for (BookLentDto bookLentDto : bookLentDtos) {
-            Book book = bookRepository.getById(bookLentDto.getBookID());
+        for (BookRentalDto bookRentalDto : bookRentalDtos) {
+            Book book = bookRepository.getById(bookRentalDto.getBookID());
             if (book == null) continue;
             result.add(bookMapper.mapToDto(book));
         }
@@ -95,31 +95,31 @@ public class LentService {
         return result;
     }
 
-    public TicketAfterReturn returnLentBook(String bookID, Date returnDate) {
+    public TicketAfterReturn returnLentBook(String lentID, Date returnDate) {
         if (returnDate == null) {
             throw new LentBadFormError(HttpStatus.BAD_REQUEST, "returnDate is null. Please retry with a valid returnDate");
         }
-        if (StringUtils.isEmpty(bookID)) {
-            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "bookID is null. Please retry with a bookID");
+        if (StringUtils.isEmpty(lentID)) {
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "lentID is null. Please retry with a lentID");
         }
-        if (!lentRepository.isBookIDInRepository(bookID)) {
-            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "bookID is not in rented list. Please retry with a different bookID");
+        if (!rentalRepository.isLentIDInRepository(lentID)) {
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "lentID is not in rented list. Please retry with a different lentID");
         }
 
-        BookLentDto bookLentDto = lentRepository.getLentDtoByBookID(bookID);
-        if (bookLentDto == null) {
+        BookRentalDto bookRentalDto = rentalRepository.getLentDtoByLentID(lentID);
+        if (bookRentalDto == null) {
             throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Something went wrong with bookID");
         }
         TicketAfterReturn resultTicket =
                 new TicketAfterReturn(
                         returnDate,
-                        bookLentDto.getLentStartDate(),
-                        bookLentDto.getLentEndDate(),
-                        bookLentDto.getBookID(),
-                        bookLentDto.getLendeeID(),
-                        bookLentDto.getLentID()
+                        bookRentalDto.getLentStartDate(),
+                        bookRentalDto.getLentEndDate(),
+                        bookRentalDto.getBookID(),
+                        bookRentalDto.getLendeeID(),
+                        bookRentalDto.getLentID()
                 );
-        lentRepository.deleteLentByLentID(bookLentDto.getLentID(),returnDate);
+        rentalRepository.deleteLentByLentID(bookRentalDto.getLentID());
         return resultTicket;
     }
 }

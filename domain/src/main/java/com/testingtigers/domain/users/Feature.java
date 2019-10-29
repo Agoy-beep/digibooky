@@ -7,7 +7,15 @@ import java.util.stream.Collectors;
 public enum Feature {
     VIEW_ALL_MEMBERS(Role.ADMIN),
     REGISTER_LIBRARIAN(Role.ADMIN),
-    REGISTER_ADMIN(Role.ADMIN);
+    REGISTER_ADMIN(Role.ADMIN),
+    CREATE_BOOK(Role.ADMIN, Role.LIBRARIAN),
+    DELETE_BOOK(Role.LIBRARIAN, Role.ADMIN),
+    UNDELETE_BOOK(Role.LIBRARIAN, Role.ADMIN),
+    UPDATE_BOOK(Role.ADMIN, Role.LIBRARIAN),
+    GET_LENT_BOOKS(Role.ADMIN, Role.LIBRARIAN),
+    BORROW_BOOK(Role.MEMBER),
+    GET_LENT_BOOKS_BY_MEMBER(Role.ADMIN, Role.LIBRARIAN),
+    GET_OVERDUE_BOOKS(Role.ADMIN, Role.LIBRARIAN);
 
     private Role[] authorizedRoles;
 
