@@ -3,7 +3,6 @@ package com.testingtigers.service;
 import com.testingtigers.domain.Author;
 import com.testingtigers.domain.dtos.AuthorDto;
 import com.testingtigers.domain.dtos.AuthorMapper;
-import com.testingtigers.domain.dtos.BookMapper;
 import com.testingtigers.domain.repositories.AuthorRepository;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +13,9 @@ public class AuthorService {
     private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;
 
-    public AuthorService(AuthorRepository authorRepository) {
+    public AuthorService(AuthorRepository authorRepository, AuthorMapper authorMapper) {
         this.authorRepository = authorRepository;
-        this.authorMapper = new AuthorMapper();
+        this.authorMapper = authorMapper;
     }
 
     public AuthorDto findSpecificAuthorIfNotFoundCreateNewAuthor (String authorLastName){
