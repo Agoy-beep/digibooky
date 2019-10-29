@@ -1,12 +1,10 @@
 package com.testingtigers.api;
 
-import com.testingtigers.domain.dtos.AuthorDto;
-import com.testingtigers.domain.dtos.BookDto;
-import com.testingtigers.domain.dtos.CreateBookDto;
-import com.testingtigers.domain.dtos.UpdateBookDto;
+import com.testingtigers.domain.dtos.*;
 import com.testingtigers.domain.exceptions.AuthorNotFound;
 import com.testingtigers.domain.exceptions.BookNotFound;
 import com.testingtigers.service.AuthorService;
+import com.testingtigers.service.BookDetailsWithLentInfoService;
 import com.testingtigers.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +23,14 @@ public class BookController {
 
     private final BookService bookService;
     private final AuthorService authorService;
+    private final BookDetailsWithLentInfoService bookDetailsWithLentInfoService;
     public static Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
-    public BookController(BookService bookService, AuthorService authorService) {
+    public BookController(BookService bookService, AuthorService authorService, BookDetailsWithLentInfoService bookDetailsWithLentInfoService) {
         this.bookService = bookService;
         this.authorService = authorService;
+        this.bookDetailsWithLentInfoService = bookDetailsWithLentInfoService;
     }
 
     @GetMapping(produces = "application/json")
@@ -42,20 +42,23 @@ public class BookController {
 
     @GetMapping(path = "/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
-    public BookDto getSpecificBook(@PathVariable("id") String id) {
+    //public BookDto getSpecificBook(@PathVariable("id") String id) {
+    public BookDetailsWithLentInfoDto getSpecificBook(@PathVariable("id") String id) {
         logger.info("A book was queried with ID:" + id + ".");
-        return bookService.returnSpecificBookBasedOnId(id);
+
+        return bookDetailsWithLentInfoService.fillInAllDtosByBookID(id);
+        // return bookService.returnSpecificBookBasedOnId(id);
     }
 
     @PreAuthorize("hasAuthority('CREATE_BOOK')")
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDto createBook(@RequestBody CreateBookDto createdBookDto){
-        logger.info("User attempts to create a book titled: " + createdBookDto.getTitle() +  ".");
+    public BookDto createBook(@RequestBody CreateBookDto createdBookDto) {
+        logger.info("User attempts to create a book titled: " + createdBookDto.getTitle() + ".");
         AuthorDto authorDto = authorService.findSpecificAuthorIfNotFoundCreateNewAuthor(createdBookDto.getAuthorLastName());
-        if(createdBookDto.getSummary() == null){
+        if (createdBookDto.getSummary() == null) {
             return bookService.registerBookAndReturnDto(createdBookDto, authorDto);
-        } else{
+        } else {
 
             return bookService.registerBookAndReturnDto(createdBookDto);
         }
@@ -97,7 +100,7 @@ public class BookController {
     @PreAuthorize("hasAuthority('UPDATE_BOOK')")
     @PutMapping(params = "/{id}", consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public BookDto updateBook(@RequestParam ("id") String id, @RequestBody UpdateBookDto updateBookDto){
+    public BookDto updateBook(@RequestParam("id") String id, @RequestBody UpdateBookDto updateBookDto) {
         logger.info("User attempted to update book with title:" + updateBookDto.getTitle() + ".");
         return bookService.updateSpecificBook(id, updateBookDto);
     }
@@ -108,7 +111,7 @@ public class BookController {
             //usage localhost:8080/books/author/?firstName=*&lastName=*
             @RequestParam("firstName") String firstName,
             @RequestParam("lastName") String lastName) {
-        logger.info("User attempted to retrieve a list of books by author: " + firstName + " " + lastName + "." );
+        logger.info("User attempted to retrieve a list of books by author: " + firstName + " " + lastName + ".");
         return bookService.returnBooksByAuthor(firstName, lastName);
     }
 
@@ -123,4 +126,19 @@ public class BookController {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
         logger.warn("User looked for author that was not in the database.");
     }
+    /*
+ {
+        "isbn": "123-456-danny",
+        "uniqueId": "e2b44dc7-12bd-402c-bb9f-c454a627a595",
+        "title": "DannyTitle",
+        "authorID": "f656d65b-f3e1-4c4b-835a-40ff23f9058b",
+        "summary": "DannySummery"
+    }
+
+
+
+     */
+
+
+
 }

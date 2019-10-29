@@ -9,6 +9,16 @@ public class BookLentDto {
     Date lentEndDate;
     String lentID;
 
+    @Override
+    public String toString() {
+        return  "bookID='" + bookID + '\'' +
+                ", lendeeID='" + lendeeID + '\'' +
+                ", lentStartDate=" + lentStartDate +
+                ", lentEndDate=" + lentEndDate +
+                ", lentID='" + lentID + '\'';
+
+    }
+
     public String getBookID() {
         return bookID;
     }
