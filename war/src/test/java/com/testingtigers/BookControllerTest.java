@@ -59,8 +59,11 @@ class BookControllerTest {
                 .setAuthorLastName("Pinker")
                 .setTitle("Title");
 
+        String encodedString = Base64.getEncoder().encodeToString(("admin@admin.com:admin").getBytes());
+
         RestAssured
                 .given()
+                .header("Authorization", "Basic " + encodedString)
                 .body(createBookDto)
                 .accept(JSON)
                 .contentType(JSON)
