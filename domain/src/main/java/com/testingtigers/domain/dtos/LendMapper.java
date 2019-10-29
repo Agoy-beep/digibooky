@@ -1,7 +1,9 @@
 package com.testingtigers.domain.dtos;
 
 import com.testingtigers.domain.BookLent;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LendMapper {
 
     public BookLentDto convertBookLentToDto(BookLent bookLent) {

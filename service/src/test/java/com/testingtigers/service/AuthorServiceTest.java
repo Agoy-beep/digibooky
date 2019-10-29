@@ -4,20 +4,17 @@ import com.testingtigers.domain.Author;
 import com.testingtigers.domain.dtos.AuthorDto;
 import com.testingtigers.domain.dtos.AuthorMapper;
 import com.testingtigers.domain.repositories.AuthorRepository;
-//import org.junit.jupiter.api.Assertions;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.junit.jupiter.api.Assertions.*;
+//import org.junit.jupiter.api.Assertions;
 
 class AuthorServiceTest {
 
     AuthorRepository authorRepository = new AuthorRepository();
-    AuthorService authorService = new AuthorService(authorRepository);
+    AuthorService authorService = new AuthorService(authorRepository, new AuthorMapper());
     AuthorMapper authorMapper = new AuthorMapper();
 
     @Test

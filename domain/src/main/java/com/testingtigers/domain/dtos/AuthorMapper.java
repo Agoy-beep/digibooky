@@ -1,8 +1,9 @@
 package com.testingtigers.domain.dtos;
 
 import com.testingtigers.domain.Author;
-import com.testingtigers.domain.Book;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AuthorMapper {
 
     public  AuthorDto mapToDto(Author author) {
