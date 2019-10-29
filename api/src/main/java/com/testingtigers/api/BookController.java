@@ -6,6 +6,7 @@ import com.testingtigers.domain.dtos.CreateBookDto;
 import com.testingtigers.domain.dtos.UpdateBookDto;
 import com.testingtigers.domain.exceptions.AuthorNotFound;
 import com.testingtigers.domain.exceptions.BookNotFound;
+import com.testingtigers.domain.exceptions.EmptyFields;
 import com.testingtigers.service.AuthorService;
 import com.testingtigers.service.BookService;
 import org.slf4j.Logger;
@@ -54,7 +55,7 @@ public class BookController {
 
         if(createdBookDto.getTitle().isBlank() || createdBookDto.getIsbn().isBlank() ||
                 createdBookDto.getAuthorLastName().isBlank()){
-            throw new
+            throw new EmptyFields(HttpStatus.BAD_REQUEST, "Some fields don't have input!");
         }
 
         AuthorDto authorDto = authorService.findSpecificAuthorIfNotFoundCreateNewAuthor(createdBookDto.getAuthorLastName());
@@ -124,5 +125,10 @@ public class BookController {
         logger.warn("User looked for author that was not in the database.");
     }
 
+    @ExceptionHandler(EmptyFields.class)
+    protected void fieldsAreEmpty(EmptyFields ex, HttpServletResponse response) throws IOException{
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
+        logger.warn("User did not provide input for all the relevant fields.");
+    }
 
 }
