@@ -95,18 +95,18 @@ public class LentService {
         return result;
     }
 
-    public TicketAfterReturn returnLentBook(String bookID, Date returnDate) {
+    public TicketAfterReturn returnLentBook(String lentID, Date returnDate) {
         if (returnDate == null) {
             throw new LentBadFormError(HttpStatus.BAD_REQUEST, "returnDate is null. Please retry with a valid returnDate");
         }
-        if (StringUtils.isEmpty(bookID)) {
-            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "bookID is null. Please retry with a bookID");
+        if (StringUtils.isEmpty(lentID)) {
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "lentID is null. Please retry with a lentID");
         }
-        if (!lentRepository.isBookIDInRepository(bookID)) {
-            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "bookID is not in rented list. Please retry with a different bookID");
+        if (!lentRepository.isLentIDInRepository(lentID)) {
+            throw new LentBadFormError(HttpStatus.BAD_REQUEST, "lentID is not in rented list. Please retry with a different lentID");
         }
 
-        BookLentDto bookLentDto = lentRepository.getLentDtoByBookID(bookID);
+        BookLentDto bookLentDto = lentRepository.getLentDtoByLentID(lentID);
         if (bookLentDto == null) {
             throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Something went wrong with bookID");
         }
@@ -119,7 +119,7 @@ public class LentService {
                         bookLentDto.getLendeeID(),
                         bookLentDto.getLentID()
                 );
-        lentRepository.deleteLentByLentID(bookLentDto.getLentID(),returnDate);
+        lentRepository.deleteLentByLentID(bookLentDto.getLentID());
         return resultTicket;
     }
 }

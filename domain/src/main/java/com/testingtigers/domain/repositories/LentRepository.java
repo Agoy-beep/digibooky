@@ -30,14 +30,21 @@ public class LentRepository {
         return new ArrayList<BookLent>(databaseLents.values());
     }
 
-    public boolean isBookIDInRepository(String bookId) {
-        if (StringUtils.isEmpty(bookId)) return false;
+    public boolean isBookIDInRepository(String bookID) {
+        if (StringUtils.isEmpty(bookID)) return false;
         for (BookLent bookLent : getAllLentsAsList()) {
-            if (bookLent.getBookID().equals(bookId)) return true;
+            if (bookLent.getBookID().equals(bookID)) return true;
         }
         return false;
     }
 
+    public boolean isLentIDInRepository(String lentID) {
+        if (StringUtils.isEmpty(lentID)) return  false;
+        for (BookLent bookLent : getAllLentsAsList()) {
+            if (bookLent.getLentID().equals(lentID)) return true;
+        }
+        return false;
+    }
     public List<BookLentDto> getAllLentsAsListDto() {
         List<BookLentDto> result = new ArrayList<BookLentDto>();
 
@@ -87,11 +94,11 @@ public class LentRepository {
         return result;
     }
 
-    public BookLentDto getLentDtoByBookID(String bookID) {
-        if (StringUtils.isEmpty(bookID)) return null;
+    public BookLentDto getLentDtoByLentID(String lentID) {
+        if (StringUtils.isEmpty(lentID)) return null;
 
         for (BookLentDto bookLentDto : getAllLentsAsListDto()) {
-            if (bookLentDto.getBookID().equals( bookID)) {
+            if (bookLentDto.getLentID().equals( lentID)) {
                 return bookLentDto;
             }
         }
@@ -109,21 +116,15 @@ public class LentRepository {
     }
 
 
-    public void deleteLentByLentID(String lentID,Date returnDate) {
+    public void deleteLentByLentID(String lentID) {
         if (StringUtils.isEmpty( lentID)) return;
-
-
-
-
         HashMap<String, BookLent> databaseLentsCopy = new HashMap<String, BookLent>();
-        // Getting an iterator
 
-
-
-
-
-
-
+        for (BookLent bookLent : getAllLentsAsList()) {
+            if (bookLent.getLentID().equals(lentID)) continue;
+            databaseLentsCopy.put(bookLent.getLentID(), bookLent);
+        }
+        databaseLents = databaseLentsCopy;
     }
 }
 

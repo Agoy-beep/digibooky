@@ -94,7 +94,7 @@ public class LentController {
     @ResponseStatus(HttpStatus.FOUND)
     // usage
     public TicketAfterReturn lentReturn(
-            @RequestParam("bookID") String bookID,
+            @RequestParam("lentID") String lentID,
             @RequestParam("dateToCheck") String dateToCheckAsString) {
         Date dateToCheck;
         try {
@@ -102,7 +102,7 @@ public class LentController {
         } catch (Exception ex) {
             throw new IllegalArgumentException("Use date format dd/MM/yyyy");
         }
-        return lentService.returnLentBook(bookID, dateToCheck);
+        return lentService.returnLentBook(lentID, dateToCheck);
     }
 
     @ExceptionHandler(LentBadFormError.class)
@@ -119,16 +119,15 @@ public class LentController {
     }
 
     /*
-{
+    {
         "isbn": "123-456-danny",
-        "uniqueId": "845e5f64-f7e7-424a-a8e7-676897187b1b",
+        "uniqueId": "7f83d3e9-35c8-4ffb-8dae-88f13ff153d2",
         "title": "DannyTitle",
-        "authorID": "71591420-6072-49ba-acb0-6468d400d049",
+        "authorID": "59920086-79f4-4edd-99a1-e9760f634160",
         "summary": "DannySummery"
     }
-
     {
-        "id": "c555acdc-e82e-422f-81af-eb5645de268d",
+        "id": "e841f6c7-8374-4fb3-9eb4-30d21a624d08",
         "emailAdress": "jesus@heaven.hell",
         "firstName": null,
         "lastName": "christ",
@@ -138,14 +137,14 @@ public class LentController {
         "streetNumber": null,
         "inss": "Hidden for privacy reasons."
     }
+    {
+    "bookID": "7f83d3e9-35c8-4ffb-8dae-88f13ff153d2",
+    "lendeeID": "e841f6c7-8374-4fb3-9eb4-30d21a624d08",
+    "lentStartDate": "2019-10-28T23:00:00.000+0000",
+    "lentEndDate": "2019-11-18T23:00:00.000+0000",
+    "lentID": "6af748c4-3b58-4ac3-8fed-cb88c89ee445"
+}
 
-     "bookID": "845e5f64-f7e7-424a-a8e7-676897187b1b",
-        "lendeeID": "c555acdc-e82e-422f-81af-eb5645de268d",
-        "lentStartDate": "2019-10-28T23:00:00.000+0000",
-        "lentEndDate": "2019-11-18T23:00:00.000+0000",
-        "lentID": "48d22bc9-c127-497d-9dc7-8c43b2fb0939"
-
-
-     */
+    */
 }
 
