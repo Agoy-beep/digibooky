@@ -24,11 +24,11 @@ public class MemberService {
     private LibrarianRepository librarianRepository;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository, AdminRepository adminRepository, LibrarianRepository librarianRepository) {
+    public MemberService(MemberRepository memberRepository, AdminRepository adminRepository, LibrarianRepository librarianRepository, MemberMapper memberMapper) {
         this.memberRepository = memberRepository;
         this.adminRepository = adminRepository;
         this.librarianRepository = librarianRepository;
-        this.memberMapper = new MemberMapper();
+        this.memberMapper = memberMapper;
     }
 
     public MemberDto registerMember(CreateMemberDto memberToRegister) {

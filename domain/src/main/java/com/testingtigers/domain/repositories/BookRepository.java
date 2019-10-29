@@ -43,7 +43,7 @@ public class BookRepository {
                 return bookMapper.mapToDto(bookToExam);
             }
         }
-        throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book with ID "+IDToDelete+ " not found to soft-delete");
+        throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book with ID "+ IDToDelete + " not found to soft-delete");
     }
     /*
     "isbn": "123-456-danny",
@@ -62,7 +62,7 @@ public class BookRepository {
                 return bookMapper.mapToDto(bookToExam);
             }
         }
-        throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book with ID "+IDToUnDelete+ " not found to un -soft-delete");
+        throw new BookNotFound(HttpStatus.BAD_REQUEST, "Book with ID "+ IDToUnDelete +" not found to un -soft-delete");
     }
 
     public Book getById(String id) {
@@ -125,7 +125,7 @@ public class BookRepository {
             return resultingBooks;
         }
         else{
-            throw new BookNotFound(HttpStatus.BAD_REQUEST, "No books with title: " + titleToFind + " in the database!");
+            throw new BookNotFound(HttpStatus.BAD_REQUEST, "No books with title: " + titleToFind +" in the database!");
         }
     }
 
