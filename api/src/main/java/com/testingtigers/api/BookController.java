@@ -36,31 +36,41 @@ public class BookController {
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public List<BookDto> getAllBooks() {
+        logger.info("A list of all the books in the database was queried.");
         return bookService.makeListOfBookDtos();
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public BookDto getSpecificBook(@PathVariable("id") String id) {
+        logger.info("A book was queried with ID:" + id + ".");
         return bookService.returnSpecificBookBasedOnId(id);
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto createBook(@RequestBody CreateBookDto createdBookDto){
+        logger.info("User attempts to create a book titled: " + createdBookDto.getTitle() +  ".");
         AuthorDto authorDto = authorService.findSpecificAuthorIfNotFoundCreateNewAuthor(createdBookDto.getAuthorLastName());
-        return bookService.registerBookAndReturnDto(createdBookDto, authorDto);
+        if(createdBookDto.getSummary() == null){
+            return bookService.registerBookAndReturnDto(createdBookDto, authorDto);
+        } else{
+
+            return bookService.registerBookAndReturnDto(createdBookDto);
+        }
     }
 
     @GetMapping(path = "/delete/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public BookDto deleteBookByID(@PathVariable("id") String id) {
+        logger.info("User attempted to delete book with ID: " + id + ".");
         //usage localhost:8080/books\ISBN\123-456-danny
         return bookService.deleteBookByID(id);
     }
     @GetMapping(path = "/undelete/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public BookDto undeleteBookByID(@PathVariable("id") String id) {
+        logger.info("User attempted to undelete book with ID: " + id + ".");
         //usage localhost:8080/books\ISBN\123-456-danny
         return bookService.undeleteBookByID(id);
     }
@@ -68,6 +78,7 @@ public class BookController {
     @GetMapping(path = "/ISBN/{ISBN}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public List<BookDto> getBookByISBN(@PathVariable("ISBN") String ISBN) {
+        logger.info("User attempted to find books with ISBN: " + ISBN + ".");
         //usage localhost:8080/books\ISBN\123-456-danny
         return bookService.returnBooksByISBN(ISBN);
     }
@@ -75,11 +86,13 @@ public class BookController {
     @GetMapping(path = "/title/{title}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public List<BookDto> getBookByTitle(@PathVariable("title") String title) {
+        logger.info("User attempted to find books with title: " + title + ".");
         return bookService.returnBooksByTitle(title);
     }
     @PutMapping(params = "/{id}", consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public BookDto updateBook(@RequestParam ("id") String id, @RequestBody UpdateBookDto updateBookDto){
+        logger.info("User attempted to update book with title:" + updateBookDto.getTitle() + ".");
         return bookService.updateSpecificBook(id, updateBookDto);
     }
 
@@ -89,6 +102,7 @@ public class BookController {
             //usage localhost:8080/books/author/?firstName=*&lastName=*
             @RequestParam("firstName") String firstName,
             @RequestParam("lastName") String lastName) {
+        logger.info("User attempted to retrieve a list of books by author: " + firstName + " " + lastName + "." );
         return bookService.returnBooksByAuthor(firstName, lastName);
     }
 

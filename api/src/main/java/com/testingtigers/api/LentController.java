@@ -39,7 +39,7 @@ public class LentController {
     @ResponseStatus(HttpStatus.FOUND)
     //usage localhost:8080\lent
     public List<BookLentDto> getLentBooks() {
-        System.out.println("in de lent");
+        logger.info("User attempted to get a list of all lent books.");
         return lentService.getAllLentBooksAsDto();
     }
 
@@ -62,6 +62,7 @@ public class LentController {
             throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Use date format dd/MM/yyyy");
         }
         BookLent bookToLent = lentService.addBookToLent(bookID, memberID, startDateToLent);
+        logger.info("Member with ID: " + memberID +  "loans out book with ID: " + bookID + ".");
         return lendMapper.convertBookLentToDto(bookToLent);
     }
 
@@ -84,7 +85,7 @@ public class LentController {
         } catch (Exception ex) {
             throw new LentBadFormError(HttpStatus.BAD_REQUEST, "Use date format dd/MM/yyyy");
         }
-
+        logger.info("User attempted to retrieve list of lent out books.");
         return lentService.getAllBooksOverdue(dateToCheck);
     }
 
