@@ -5,15 +5,14 @@ import com.testingtigers.domain.TicketAfterReturn;
 import com.testingtigers.domain.dtos.BookDto;
 import com.testingtigers.domain.dtos.BookLentDto;
 import com.testingtigers.domain.dtos.LendMapper;
-import com.testingtigers.domain.dtos.UpdateBookDto;
 import com.testingtigers.domain.exceptions.BookIsAlreadyLentOut;
 import com.testingtigers.domain.exceptions.LentBadFormError;
 import com.testingtigers.service.LentService;
-import net.bytebuddy.asm.Advice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +35,7 @@ public class LentController {
         this.lentService = lentService;
     }
 
+    @PreAuthorize("hasAuthority('GET_LENT_BOOKS')")
     @GetMapping(path = "", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     //usage localhost:8080\lent
@@ -44,6 +44,7 @@ public class LentController {
         return lentService.getAllLentBooksAsDto();
     }
 
+    @PreAuthorize("hasAuthority('BORROW_BOOK')")
     @GetMapping(path = "/lentbook", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     //usage localhost:8080/lent/lentbook?bookID=20&memberID=20&startDateToLent=29/01/1973
@@ -67,6 +68,7 @@ public class LentController {
         return lendMapper.convertBookLentToDto(bookToLent);
     }
 
+    @PreAuthorize("hasAuthority('GET_LENT_BOOKS_BY_MEMBER')")
     @GetMapping(path = "/lentbymember/{memberID}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public List<BookDto> lentBooksByMember(@PathVariable("memberID") String memberID) {
@@ -75,6 +77,7 @@ public class LentController {
         return lentService.lentBooksByMember(memberID);
     }
 
+    @PreAuthorize("hasAuthority('GET_OVERDUE_BOOKS')")
     @GetMapping(path = "/lentoverdue", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     // usage localhost:8080/lent/lentoverdue?dateToCheck=28/11/2019
