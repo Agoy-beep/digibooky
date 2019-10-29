@@ -10,6 +10,14 @@ public class BookDto {
     private String authorID;
     private String summary;
 
+    @Override
+    public String toString() {
+        return  "isbn='" + isbn + '\'' +
+                ", uniqueId='" + uniqueId + '\'' +
+                ", title='" + title + '\'' +
+                ", authorID='" + authorID + '\'' +
+                ", summary='" + summary + '\'';
+    }
 
     public String getIsbn() {
         return isbn;
