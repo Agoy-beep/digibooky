@@ -15,7 +15,7 @@ import java.util.*;
 public class LentRepository {
 
 
-    private final HashMap<String, BookLent> databaseLents;
+    private HashMap<String, BookLent> databaseLents;
     private final LendMapper lendMapper;
 
 
