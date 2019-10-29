@@ -4,7 +4,7 @@ import com.testingtigers.domain.dtos.*;
 import com.testingtigers.domain.exceptions.AuthorNotFound;
 import com.testingtigers.domain.exceptions.BookNotFound;
 import com.testingtigers.service.AuthorService;
-import com.testingtigers.service.BookDetailsWithLentInfoService;
+import com.testingtigers.service.BookDetailsWithRentalInfoService;
 import com.testingtigers.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +23,14 @@ public class BookController {
 
     private final BookService bookService;
     private final AuthorService authorService;
-    private final BookDetailsWithLentInfoService bookDetailsWithLentInfoService;
+    private final BookDetailsWithRentalInfoService bookDetailsWithRentalInfoService;
     public static Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
-    public BookController(BookService bookService, AuthorService authorService, BookDetailsWithLentInfoService bookDetailsWithLentInfoService) {
+    public BookController(BookService bookService, AuthorService authorService, BookDetailsWithRentalInfoService bookDetailsWithRentalInfoService) {
         this.bookService = bookService;
         this.authorService = authorService;
-        this.bookDetailsWithLentInfoService = bookDetailsWithLentInfoService;
+        this.bookDetailsWithRentalInfoService = bookDetailsWithRentalInfoService;
     }
 
     @GetMapping(produces = "application/json")
@@ -46,7 +46,7 @@ public class BookController {
     public BookDetailsWithLentInfoDto getSpecificBook(@PathVariable("id") String id) {
         logger.info("A book was queried with ID:" + id + ".");
 
-        return bookDetailsWithLentInfoService.fillInAllDtosByBookID(id);
+        return bookDetailsWithRentalInfoService.fillInAllDtosByBookID(id);
         // return bookService.returnSpecificBookBasedOnId(id);
     }
 

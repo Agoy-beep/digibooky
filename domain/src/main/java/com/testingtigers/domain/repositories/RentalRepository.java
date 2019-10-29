@@ -2,9 +2,8 @@ package com.testingtigers.domain.repositories;
 
 import com.testingtigers.domain.Book;
 import com.testingtigers.domain.BookLent;
-import com.testingtigers.domain.dtos.BookDto;
-import com.testingtigers.domain.dtos.BookLentDto;
-import com.testingtigers.domain.dtos.LendMapper;
+import com.testingtigers.domain.dtos.BookRentalDto;
+import com.testingtigers.domain.dtos.RentalMapper;
 import com.testingtigers.domain.users.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,13 +12,13 @@ import org.springframework.util.StringUtils;
 import java.util.*;
 
 @Component
-public class LentRepository {
+public class RentalRepository {
 
     private HashMap<String, BookLent> databaseLents; // do not make final
-    private final LendMapper lendMapper = new LendMapper();
+    private final RentalMapper rentalMapper = new RentalMapper();
 
     @Autowired
-    public LentRepository() {
+    public RentalRepository() {
 
         databaseLents = new HashMap<String, BookLent>();
 
@@ -45,11 +44,11 @@ public class LentRepository {
         }
         return false;
     }
-    public List<BookLentDto> getAllLentsAsListDto() {
-        List<BookLentDto> result = new ArrayList<BookLentDto>();
+    public List<BookRentalDto> getAllLentsAsListDto() {
+        List<BookRentalDto> result = new ArrayList<BookRentalDto>();
 
         for (BookLent bookLent : databaseLents.values()) {
-            result.add(lendMapper.convertBookLentToDto(bookLent));
+            result.add(rentalMapper.convertBookLentToDto(bookLent));
 
         }
 
@@ -70,36 +69,36 @@ public class LentRepository {
         return bookLentToAdd;
     }
 
-    public List<BookLentDto> getLentBooksByMember(String memberID) {
+    public List<BookRentalDto> getLentBooksByMember(String memberID) {
         if (StringUtils.isEmpty(memberID)) return null;
-        List<BookLentDto> result = new ArrayList<BookLentDto>();
+        List<BookRentalDto> result = new ArrayList<BookRentalDto>();
 
         for (BookLent bookLent : databaseLents.values()) {
             if (bookLent.getLendeeID().equals(memberID)) {
-                result.add(lendMapper.convertBookLentToDto(bookLent));
+                result.add(rentalMapper.convertBookLentToDto(bookLent));
             }
         }
 
         return result;
     }
 
-    public List<BookLentDto> getAllBookLentsOverdue(Date dateToCheck) {
+    public List<BookRentalDto> getAllBookLentsOverdue(Date dateToCheck) {
         if (dateToCheck == null) return null;
-        List<BookLentDto> result = new ArrayList<>();
+        List<BookRentalDto> result = new ArrayList<>();
         for (BookLent bookLent : databaseLents.values()) {
             if (dateToCheck.after(bookLent.getLentEndDate())) {
-                result.add(lendMapper.convertBookLentToDto(bookLent));
+                result.add(rentalMapper.convertBookLentToDto(bookLent));
             }
         }
         return result;
     }
 
-    public BookLentDto getLentDtoByLentID(String lentID) {
+    public BookRentalDto getLentDtoByLentID(String lentID) {
         if (StringUtils.isEmpty(lentID)) return null;
 
-        for (BookLentDto bookLentDto : getAllLentsAsListDto()) {
-            if (bookLentDto.getLentID().equals( lentID)) {
-                return bookLentDto;
+        for (BookRentalDto bookRentalDto : getAllLentsAsListDto()) {
+            if (bookRentalDto.getLentID().equals( lentID)) {
+                return bookRentalDto;
             }
         }
         return null;

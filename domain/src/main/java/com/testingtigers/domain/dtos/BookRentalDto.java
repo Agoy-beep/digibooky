@@ -2,7 +2,7 @@ package com.testingtigers.domain.dtos;
 
 import java.util.Date;
 
-public class BookLentDto {
+public class BookRentalDto {
     String bookID;
     String lendeeID;
     Date lentStartDate;

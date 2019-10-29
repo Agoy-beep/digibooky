@@ -1,9 +1,5 @@
 package com.testingtigers.domain.dtos;
 
-import groovy.transform.ToString;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.Date;
 
 public class BookDetailsWithLentInfoDto {
@@ -96,7 +92,7 @@ public class BookDetailsWithLentInfoDto {
         return streetNumber;
     }
 
-    public BookDetailsWithLentInfoDto(BookDto bookDto, BookLentDto bookLentDto, MemberDto memberDto) {
+    public BookDetailsWithLentInfoDto(BookDto bookDto, BookRentalDto bookRentalDto, MemberDto memberDto) {
 
 
 
@@ -118,12 +114,12 @@ public class BookDetailsWithLentInfoDto {
             summary = bookDto.getSummary();
         }
 
-        if (bookLentDto != null) {
-            bookID = bookLentDto.getBookID();
-            lendeeID = bookLentDto.getLendeeID();
-            lentStartDate = bookLentDto.getLentStartDate();
-            lentEndDate = bookLentDto.getLentEndDate();
-            lentID = bookLentDto.getLentID();
+        if (bookRentalDto != null) {
+            bookID = bookRentalDto.getBookID();
+            lendeeID = bookRentalDto.getLendeeID();
+            lentStartDate = bookRentalDto.getLentStartDate();
+            lentEndDate = bookRentalDto.getLentEndDate();
+            lentID = bookRentalDto.getLentID();
         }
 
     }
