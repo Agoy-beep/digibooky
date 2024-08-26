@@ -29,7 +29,7 @@
     <properties>
         <digibooky.version>0.1</digibooky.version>
         <java.version>11</java.version>
-        <swagger.version>2.9.2</swagger.version>
+        <swagger.version>2.10.0</swagger.version>
         <assertj.core.version>3.13.2</assertj.core.version>
         <jwildcard.version>1.2</jwildcard.version>
         <rest-assured.version>4.0.0</rest-assured.version>
